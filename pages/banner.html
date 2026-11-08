@@ -13,8 +13,14 @@
         </div>
     </div>
 
-    <!-- Kontainer Banner dengan Class universal-banner-container -->
-    <div class="universal-banner-container grid grid-cols-1 md:grid-cols-3 gap-4">
+    <!-- STYLING CSS UTILITY UNTUK MENYEMBUNYIKAN SCROLLBAR TETAPI TETAP BISA DI-SCROLL -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none !important; width: 0px !important; height: 0px !important; }
+        .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+    </style>
+
+    <!-- Kontainer Banner dengan Class universal-banner-container dan no-scrollbar -->
+    <div class="universal-banner-container no-scrollbar max-h-[75vh] overflow-y-auto grid grid-cols-1 md:grid-cols-3 gap-4 pr-1">
         <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-none border border-slate-200/70 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
             Memuat data banner...
         </div>
@@ -24,6 +30,7 @@
 <script>
     (function() {
         let currentDeleteBannerId = null;
+        let currentEditBannerId = null;
 
         function initBannerPage() {
             initBannerModals();
@@ -60,6 +67,8 @@
                                 const status = item.status || 'Aktif';
                                 const image = item.image || '';
 
+                                const safeJudul = judul.replace(/'/g, "\\'");
+
                                 htmlContent += `
                                     <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
                                         <div class="w-full h-32 bg-slate-100 dark:bg-slate-900 rounded-none overflow-hidden flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
@@ -70,15 +79,14 @@
                                             <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs mt-1">${judul}</h4>
                                         </div>
                                         <div class="flex items-center space-x-2 pt-2 border-t border-slate-100 dark:border-slate-700">
-                                            <button type="button" onclick="showBannerNotification('Fitur edit sedang dikembangkan', 'info')" class="flex-1 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
-                                            <button type="button" onclick="openConfirmDeleteBannerModal('${id}', '${judul.replace(/'/g, "\\'")}')" class="flex-1 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
+                                            <button type="button" onclick="openEditBannerModal('${id}', '${safeJudul}', '${status}')" class="flex-1 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
+                                            <button type="button" onclick="openConfirmDeleteBannerModal('${id}', '${safeJudul}')" class="flex-1 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
                                         </div>
                                     </div>
                                 `;
                             });
                         }
 
-                        // Isi data ke SEMUA container (baik Desktop & Mobile)
                         containers.forEach(c => c.innerHTML = htmlContent);
                     }, (err) => {
                         console.error("Error mengambil banner:", err);
@@ -91,7 +99,46 @@
         }
 
         window.openBannerModal = function() {
+            currentEditBannerId = null;
             initBannerModals();
+            const modalTitle = document.getElementById('modalBannerTitle');
+            const submitBtn = document.getElementById('submitBannerBtn');
+            const form = document.getElementById('bannerForm');
+
+            if (modalTitle) modalTitle.innerText = "Form Input Banner";
+            if (submitBtn) submitBtn.innerText = "Simpan Banner";
+            if (form) form.reset();
+
+            const imgInput = document.getElementById('bannerImage');
+            if (imgInput) imgInput.setAttribute('required', 'required');
+
+            const modal = document.getElementById('customBannerModal');
+            const box = document.getElementById('customBannerBox');
+            if (modal && box) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    box.classList.remove('scale-95', 'opacity-0');
+                    box.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+        };
+
+        window.openEditBannerModal = function(id, title, status) {
+            currentEditBannerId = id;
+            initBannerModals();
+            
+            const modalTitle = document.getElementById('modalBannerTitle');
+            const submitBtn = document.getElementById('submitBannerBtn');
+            const titleInput = document.getElementById('bannerTitle');
+            const statusSelect = document.getElementById('bannerStatus');
+            const imgInput = document.getElementById('bannerImage');
+
+            if (modalTitle) modalTitle.innerText = "Form Edit Banner";
+            if (submitBtn) submitBtn.innerText = "Perbarui Banner";
+            if (titleInput) titleInput.value = title;
+            if (statusSelect) statusSelect.value = status;
+            if (imgInput) imgInput.removeAttribute('required');
+
             const modal = document.getElementById('customBannerModal');
             const box = document.getElementById('customBannerBox');
             if (modal && box) {
@@ -109,7 +156,10 @@
             if (modal && box) {
                 box.classList.remove('scale-100', 'opacity-100');
                 box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                setTimeout(() => { 
+                    modal.classList.add('hidden'); 
+                    currentEditBannerId = null;
+                }, 300);
             }
         };
 
@@ -184,7 +234,7 @@
             <div id="customBannerModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
                 <div id="customBannerBox" class="w-full max-w-md bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out">
                     <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
-                        <h3 class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Banner</h3>
+                        <h3 id="modalBannerTitle" class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Banner</h3>
                         <button type="button" onclick="closeBannerModal()" class="w-6 h-6 rounded-none bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs cursor-pointer">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
@@ -197,7 +247,7 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">File Gambar Banner (Kompres Otomatis 300px)</label>
-                            <input type="file" id="bannerImage" accept="image/*" required class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-400 hover:file:bg-emerald-100 cursor-pointer">
+                            <input type="file" id="bannerImage" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-400 hover:file:bg-emerald-100 cursor-pointer">
                         </div>
                         <div>
                             <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Publikasi</label>
@@ -208,7 +258,7 @@
                         </div>
                         <div class="flex space-x-2 pt-2">
                             <button type="button" onclick="closeBannerModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
-                            <button type="submit" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Banner</button>
+                            <button type="submit" id="submitBannerBtn" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Banner</button>
                         </div>
                     </form>
                 </div>
@@ -264,50 +314,77 @@
                 const status = document.getElementById('bannerStatus').value;
                 const fileInput = document.getElementById('bannerImage');
 
-                if (!title || fileInput.files.length === 0) return;
+                if (!title) return;
 
-                const file = fileInput.files[0];
-                const reader = new FileReader();
+                const saveData = async (imageBase64 = null) => {
+                    try {
+                        const docRef = currentEditBannerId 
+                            ? firebase.firestore().collection("banner").doc(currentEditBannerId)
+                            : firebase.firestore().collection("banner").doc();
 
-                reader.onload = function(uploadEvent) {
-                    const img = new Image();
-                    img.src = uploadEvent.target.result;
-                    img.onload = async function() {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        const maxDim = 300;
+                        const payload = {
+                            judul: title,
+                            status: status
+                        };
 
-                        if (width > height) {
-                            if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+                        if (imageBase64) {
+                            payload.image = imageBase64;
+                        }
+
+                        if (!currentEditBannerId) {
+                            payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                        }
+
+                        if (currentEditBannerId) {
+                            await docRef.update(payload);
                         } else {
-                            if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                            await docRef.set(payload);
                         }
 
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-
-                        try {
-                            await firebase.firestore().collection("banner").add({
-                                judul: title,
-                                status: status,
-                                image: compressedBase64,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-
-                            closeBannerModal();
-                            document.getElementById('bannerForm').reset();
-                            showBannerNotification(`Banner '${title}' berhasil disimpan!`, "success");
-                        } catch (error) {
-                            alert("Gagal menyimpan ke database: " + error.message);
-                        }
-                    };
+                        closeBannerModal();
+                        document.getElementById('bannerForm').reset();
+                        showBannerNotification(`Banner '${title}' berhasil ${currentEditBannerId ? 'diperbarui' : 'disimpan'}!`, "success");
+                    } catch (error) {
+                        alert("Gagal menyimpan ke database: " + error.message);
+                    }
                 };
-                reader.readAsDataURL(file);
+
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = function(uploadEvent) {
+                        const img = new Image();
+                        img.src = uploadEvent.target.result;
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+                            const maxDim = 300;
+
+                            if (width > height) {
+                                if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+                            } else {
+                                if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                            saveData(compressedBase64);
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    if (currentEditBannerId) {
+                        saveData(null);
+                    } else {
+                        alert("Silakan pilih gambar banner terlebih dahulu.");
+                    }
+                }
             });
         }
 

@@ -5,17 +5,51 @@
     <title>Beranda - BUMKal Srihardono</title>
 </head>
 <body>
+    <!-- CSS UNTUK MENYEMBUNYIKAN SCROLLBAR & ANIMASI RUNNING TEXT -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+        
+        @keyframes mobileMarquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            will-change: transform;
+            animation: mobileMarquee 10s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+
     <!-- Konten Khusus Beranda -->
-    <div id="content-payload">
-        <!-- KONTAINER SLIDER BANNER (Tinggi Dikecilkan & Menggunakan Class Selector) -->
-        <div class="hero-slider-box relative bg-slate-900 text-white min-h-[320px] rounded-2xl flex flex-col items-center justify-center text-center p-4 overflow-hidden shadow-sm group">
+    <div id="content-payload" class="space-y-6 overflow-y-auto no-scrollbar h-full w-full pb-10">
+        
+        <!-- KONTAINER SLIDER BANNER (KOTAK STATIS & UKURAN GAMBAR DIPAKSA MENYESUAIKAN) -->
+        <div class="hero-slider-box relative bg-slate-900 text-white min-h-[360px] rounded-none flex flex-col items-center justify-center text-center p-4 overflow-hidden shadow-sm group">
             
-            <!-- BACKGROUND BLUR (Untuk mengisi ruang samping tanpa merusak gambar) -->
+            <!-- BACKGROUND BLUR -->
             <div class="hero-slider-bg-blur absolute inset-0 bg-cover bg-center filter blur-xl opacity-30 scale-110 transition-all duration-700 ease-in-out"></div>
             
-            <!-- GAMBAR BANNER UTAMA (Ukuran Asli & Tidak Pecah) -->
-            <div class="relative z-10 my-2 max-h-[160px] max-w-[280px] sm:max-w-[320px] rounded-lg overflow-hidden shadow-lg border border-white/10 flex items-center justify-center bg-slate-950/40">
-                <img class="hero-banner-img max-h-[160px] w-auto object-contain transition-all duration-500" src="" alt="Banner BUMKal">
+            <!-- GRID & KOTAK SLIDER -->
+            <div class="relative z-10 my-2 w-full max-w-7xl px-2">
+                <!-- Tampilan Mobile (Kotak Statis & Gambar Dipaksa Mengisi Kotak) -->
+                <div class="md:hidden h-36 w-full max-w-[300px] mx-auto rounded-none overflow-hidden shadow-lg border border-white/10 flex items-center justify-center bg-slate-950/60">
+                    <img class="hero-banner-img h-full w-full object-cover transition-all duration-500" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" alt="Banner BUMKal">
+                </div>
+
+                <!-- Tampilan Desktop (6 Kotak Statis Berjajar & Gambar Dipaksa Mengisi Kotak) -->
+                <div id="desktop-grid-banners" class="hidden md:grid grid-cols-6 gap-3"></div>
             </div>
             
             <!-- OVERLAY GRADIENT BAWAH -->
@@ -23,45 +57,230 @@
             
             <!-- TULISAN & INFORMASI BANNER -->
             <div class="relative z-10 max-w-xl mx-auto space-y-1.5 mt-1">
-                <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold bg-emerald-950/70 px-2.5 py-0.5 rounded-full border border-emerald-500/30 inline-block transition-all duration-300">
-                    Pundong, Bantul, Yogyakarta
+                <span id="banner-firestore-wilayah" class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold bg-emerald-950/70 px-2.5 py-0.5 rounded-none border border-emerald-500/30 inline-block transition-all duration-300">
+                    Kapanewon Pundong, Bantul, Yogyakarta
                 </span>
                 <h2 class="text-xl md:text-3xl font-extrabold tracking-tight drop-shadow-md">
-                    <span class="banner-title-text">Memuat Banner...</span> 
-                    <span class="inline-block text-emerald-400 font-serif italic font-normal ml-1">BUMKal Srihardono</span>
+                    <span class="banner-title-text">Selamat Datang</span> 
+                    <span id="banner-firestore-nama" class="inline-block text-emerald-400 font-serif italic font-normal ml-1">BUMKal Srihardono</span>
                 </h2>
-                <p class="text-[11px] md:text-xs text-slate-300 max-w-md mx-auto leading-relaxed transition-all duration-300">
+                <p id="banner-firestore-slogan" class="text-[11px] md:text-xs text-slate-300 max-w-md mx-auto leading-relaxed transition-all duration-300">
                     Pusat layanan digital desa & ekonomi kreatif Kapanewon Pundong.
                 </p>
             </div>
 
-            <!-- NAVIGASI PANAH (PREV & NEXT) -->
-            <button type="button" onclick="prevHomeSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center backdrop-blur-xs transition opacity-0 group-hover:opacity-100 cursor-pointer">
+            <!-- RUNNING TEXT -->
+            <div id="running-text-wrapper" class="relative z-10 w-full max-w-7xl mx-auto mt-3 px-2">
+                <div class="w-full px-3 py-1.5 bg-slate-950/70 border border-emerald-500/30 rounded-none backdrop-blur-md flex items-center shadow-lg overflow-hidden">
+                    <div class="w-full overflow-hidden whitespace-nowrap text-left relative">
+                        <div id="firestore-running-text" class="animate-marquee text-[11px] md:text-xs font-medium text-slate-200 inline-block">
+                            Berkarya untuk Desa, Sejahtera untuk Semua     •     Selamat Datang di Portal Resmi BUMKal Srihardono
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAVIGASI PANAH (Hanya untuk Mobile) -->
+            <button type="button" onclick="window.prevHomeSlide()" class="md:hidden absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-black/40 hover:bg-black/70 text-white rounded-none flex items-center justify-center backdrop-blur-xs transition cursor-pointer">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
-            <button type="button" onclick="nextHomeSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center backdrop-blur-xs transition opacity-0 group-hover:opacity-100 cursor-pointer">
+            <button type="button" onclick="window.nextHomeSlide()" class="md:hidden absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-black/40 hover:bg-black/70 text-white rounded-none flex items-center justify-center backdrop-blur-xs transition cursor-pointer">
                 <i class="fa-solid fa-chevron-right text-xs"></i>
             </button>
 
             <!-- INDIKATOR TITIK (DOTS) -->
-            <div class="hero-slider-dots absolute bottom-2 left-0 right-0 z-20 flex justify-center space-x-1.5"></div>
+            <div class="md:hidden hero-slider-dots absolute bottom-2 left-0 right-0 z-20 flex justify-center space-x-1.5"></div>
         </div>
+
+        <!-- KONTAINER PROFIL LEMBAGA DI BAWAH (CERAH, SEPARUH SEBELAH KIRI, TINGGI 50vh) -->
+        <div class="relative bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 h-[50vh] min-h-[320px] rounded-none flex flex-col items-start justify-center text-left p-8 md:p-12 overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 w-full md:w-1/2">
+            <div class="relative z-10 max-w-xl space-y-3">
+                <span id="home-profil-wilayah" class="text-[10px] md:text-xs uppercase tracking-widest text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-100 dark:bg-emerald-950/80 px-3 py-1 rounded-none border border-emerald-500/30 inline-block shadow-sm">
+                    Kapanewon Pundong, Bantul, Yogyakarta
+                </span>
+                
+                <h3 class="text-xl md:text-3xl font-extrabold tracking-tight drop-shadow-none text-slate-900 dark:text-white">
+                    <span id="home-profil-nama">BUMKal Srihardono</span>
+                </h3>
+
+                <p id="home-profil-slogan" class="text-xs md:text-sm text-emerald-700 dark:text-emerald-300 font-serif italic font-medium">
+                    "Desa Berdaya, Warga Sejahtera"
+                </p>
+
+                <p id="home-profil-deskripsi" class="text-[11px] md:text-xs text-slate-600 dark:text-slate-300 max-w-lg leading-relaxed line-clamp-3">
+                    Badan Usaha Milik Kalurahan yang dikelola secara mandiri, transparan, dan bertanggung jawab untuk mengelola potensi dan sumber daya Kalurahan Srihardono.
+                </p>
+
+                <div class="pt-2 flex items-center space-x-6 text-[11px] text-slate-600 dark:text-slate-300">
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fa-solid fa-location-dot text-emerald-600 dark:text-emerald-400"></i>
+                        <span id="home-profil-alamat">Srihardono, Pundong, Bantul</span>
+                    </div>
+                    <span>•</span>
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fa-solid fa-phone text-emerald-600 dark:text-emerald-400"></i>
+                        <span id="home-profil-kontak">081234567890</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- SKRIP KONTROL SLIDER & FIRESTORE REALTIME -->
+    <!-- SKRIP KONTROL SLIDER & FIRESTORE REAL-TIME -->
     <script>
-        (function() {
-            let slideIndex = 0;
-            let slideTimer = null;
-            let slideData = [];
+        if (typeof window.homeSlideTimer !== 'undefined') {
+            clearInterval(window.homeSlideTimer);
+        }
 
-            function initHomeSlider() {
+        window.homeSlideIndex = 0;
+        window.homeSlideData = window.homeSlideData || [
+            { judul: "Selamat Datang", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" }
+        ];
+
+        window.renderHomeSlide = function(index) {
+            const imgElements = document.querySelectorAll('.hero-banner-img');
+            const bgBlurElements = document.querySelectorAll('.hero-slider-bg-blur');
+            const titleElements = document.querySelectorAll('.banner-title-text');
+            const dotsElements = document.querySelectorAll('.hero-slider-dots');
+
+            if (!window.homeSlideData.length) return;
+            const current = window.homeSlideData[index];
+            
+            imgElements.forEach(imgEl => {
+                imgEl.style.opacity = '0';
+                setTimeout(() => {
+                    imgEl.src = current.image;
+                    imgEl.style.opacity = '1';
+                }, 150);
+            });
+
+            bgBlurElements.forEach(bgBlur => {
+                bgBlur.style.backgroundImage = `url('${current.image}')`;
+            });
+
+            titleElements.forEach(titleEl => {
+                titleEl.innerText = current.judul;
+            });
+
+            dotsElements.forEach(dotsEl => {
+                let dotsHtml = '';
+                window.homeSlideData.forEach((_, i) => {
+                    dotsHtml += `<button type="button" onclick="window.goToHomeSlide(${i})" class="w-2 h-2 rounded-none transition-all duration-300 ${i === index ? 'bg-emerald-400 w-5' : 'bg-white/40 hover:bg-white/70'} cursor-pointer"></button>`;
+                });
+                dotsEl.innerHTML = dotsHtml;
+            });
+
+            window.renderDesktopGrid(index);
+        };
+
+        window.renderDesktopGrid = function(startIndex = 0) {
+            const desktopGrid = document.getElementById('desktop-grid-banners');
+            if (!desktopGrid || !window.homeSlideData.length) return;
+
+            let gridHtml = '';
+            for (let i = 0; i < 6; i++) {
+                const slideItem = window.homeSlideData[(startIndex + i) % window.homeSlideData.length];
+                gridHtml += `
+                    <div class="h-28 w-full rounded-none overflow-hidden shadow-lg border border-white/10 flex items-center justify-center bg-slate-950/60">
+                        <img class="w-full h-full object-cover transition-all duration-300 hover:scale-105" src="${slideItem.image}" alt="Banner BUMKal">
+                    </div>
+                `;
+            }
+            desktopGrid.innerHTML = gridHtml;
+        };
+
+        window.startHomeAutoSlide = function() {
+            if (window.homeSlideTimer) clearInterval(window.homeSlideTimer);
+            if (window.homeSlideData.length <= 1) return;
+            
+            window.homeSlideTimer = setInterval(() => {
+                window.homeSlideIndex = (window.homeSlideIndex + 1) % window.homeSlideData.length;
+                window.renderHomeSlide(window.homeSlideIndex);
+            }, 4000);
+        };
+
+        window.nextHomeSlide = function() {
+            if (!window.homeSlideData.length) return;
+            window.homeSlideIndex = (window.homeSlideIndex + 1) % window.homeSlideData.length;
+            window.renderHomeSlide(window.homeSlideIndex);
+            window.startHomeAutoSlide();
+        };
+
+        window.prevHomeSlide = function() {
+            if (!window.homeSlideData.length) return;
+            window.homeSlideIndex = (window.homeSlideIndex - 1 + window.homeSlideData.length) % window.homeSlideData.length;
+            window.renderHomeSlide(window.homeSlideIndex);
+            window.startHomeAutoSlide();
+        };
+
+        window.goToHomeSlide = function(i) {
+            window.homeSlideIndex = i;
+            window.renderHomeSlide(window.homeSlideIndex);
+            window.startHomeAutoSlide();
+        };
+
+        (function() {
+            function initHome() {
+                window.renderHomeSlide(window.homeSlideIndex);
+                window.startHomeAutoSlide();
+                loadHomeProfil();
                 loadFirestoreBanners();
+                loadLiveRunningText();
+            }
+
+            function loadHomeProfil() {
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadHomeProfil, 100);
+                    return;
+                }
+
+                const db = firebase.firestore();
+
+                db.collection("pengaturan_profil").doc("informasi").onSnapshot((doc) => {
+                    if (doc && doc.exists) {
+                        updateProfilUI(doc.data());
+                    } else {
+                        db.collection("pengaturan_profil").get().then((querySnapshot) => {
+                            if (!querySnapshot.empty) {
+                                updateProfilUI(querySnapshot.docs[0].data());
+                            }
+                        }).catch(e => console.log(e));
+                    }
+                }, (err) => {
+                    console.error("Gagal memuat profil beranda:", err);
+                });
+            }
+
+            function updateProfilUI(data) {
+                if (!data) return;
+                
+                const wilEl = document.getElementById('home-profil-wilayah');
+                const namaEl = document.getElementById('home-profil-nama');
+                const sloganEl = document.getElementById('home-profil-slogan');
+                const deskEl = document.getElementById('home-profil-deskripsi');
+                const alamatEl = document.getElementById('home-profil-alamat');
+                const kontakEl = document.getElementById('home-profil-kontak');
+
+                if (wilEl && data.wilayah) wilEl.innerText = data.wilayah;
+                if (namaEl && data.nama) namaEl.innerText = data.nama;
+                if (sloganEl && data.slogan) sloganEl.innerText = `"${data.slogan}"`;
+                if (deskEl && data.deskripsi) deskEl.innerText = data.deskripsi;
+                if (alamatEl && data.alamat) alamatEl.innerText = data.alamat;
+                if (kontakEl && data.kontak) kontakEl.innerText = data.kontak;
+
+                const bannerWil = document.getElementById('banner-firestore-wilayah');
+                const bannerNama = document.getElementById('banner-firestore-nama');
+                const bannerSlogan = document.getElementById('banner-firestore-slogan');
+
+                if (bannerWil && data.wilayah) bannerWil.innerText = data.wilayah;
+                if (bannerNama && data.nama) bannerNama.innerText = data.nama;
+                if (bannerSlogan && data.slogan) bannerSlogan.innerText = data.slogan;
             }
 
             function loadFirestoreBanners() {
                 if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
-                    setTimeout(loadFirestoreBanners, 200);
+                    setTimeout(loadFirestoreBanners, 100);
                     return;
                 }
 
@@ -78,98 +297,65 @@
                     });
 
                     if (fetchedSlides.length > 0) {
-                        slideData = fetchedSlides;
-                    } else {
-                        slideData = [{
-                            judul: "Selamat Datang",
-                            image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop"
-                        }];
+                        window.homeSlideData = fetchedSlides;
+                        if (window.homeSlideIndex >= window.homeSlideData.length) window.homeSlideIndex = 0;
+                        window.renderHomeSlide(window.homeSlideIndex);
+                        window.startHomeAutoSlide();
                     }
-                    
-                    slideIndex = 0;
-                    renderSlide(slideIndex);
-                    startAutoSlide();
                 }, (err) => {
                     console.error("Gagal memuat banner beranda:", err);
-                    slideData = [{
-                        judul: "Selamat Datang",
-                        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop"
-                    }];
-                    renderSlide(0);
-                    startAutoSlide();
                 });
             }
 
-            function renderSlide(index) {
-                const imgElements = document.querySelectorAll('.hero-banner-img');
-                const bgBlurElements = document.querySelectorAll('.hero-slider-bg-blur');
-                const titleElements = document.querySelectorAll('.banner-title-text');
-                const dotsElements = document.querySelectorAll('.hero-slider-dots');
+            function loadLiveRunningText() {
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadLiveRunningText, 100);
+                    return;
+                }
 
-                if (!imgElements.length || !slideData.length) return;
+                const db = firebase.firestore();
+                const rtContainer = document.getElementById('firestore-running-text');
 
-                const current = slideData[index];
-                
-                // Update Gambar Banner Utama tanpa Pecah
-                imgElements.forEach(imgEl => {
-                    imgEl.style.opacity = '0';
-                    setTimeout(() => {
-                        imgEl.src = current.image;
-                        imgEl.style.opacity = '1';
-                    }, 150);
+                // Ambil konfigurasi kecepatan secara real-time dari Firestore[cite: 6]
+                db.collection("running_text_config").doc("global").onSnapshot((docConfig) => {
+                    let speedDuration = "8s"; 
+                    if (docConfig && docConfig.exists) {
+                        const cfg = docConfig.data();
+                        const kecepatanVal = (cfg.kecepatan || "").trim().toLowerCase();
+                        
+                        if (kecepatanVal === "cepat") {
+                            speedDuration = "4s";   // Cepat & gesit
+                        } else if (kecepatanVal === "sedang") {
+                            speedDuration = "12s";  // Sedang
+                        } else if (kecepatanVal === "lambat") {
+                            speedDuration = "25s";  // Lambat
+                        }
+                    }
+                    if (rtContainer) {
+                        rtContainer.style.animation = `mobileMarquee ${speedDuration} linear infinite`;
+                    }
                 });
 
-                // Update Background Blur di Belakangnya
-                bgBlurElements.forEach(bgBlur => {
-                    bgBlur.style.backgroundImage = `url('${current.image}')`;
-                });
-
-                // Update Judul Banner
-                titleElements.forEach(titleEl => {
-                    titleEl.innerText = current.judul;
-                });
-
-                // Render Indikator Titik (Dots)
-                dotsElements.forEach(dotsEl => {
-                    let dotsHtml = '';
-                    slideData.forEach((_, i) => {
-                        dotsHtml += `<button type="button" onclick="goToHomeSlide(${i})" class="w-2 h-2 rounded-full transition-all duration-300 ${i === index ? 'bg-emerald-400 w-5' : 'bg-white/40 hover:bg-white/70'} cursor-pointer"></button>`;
+                // Ambil item teks pengumuman secara real-time
+                db.collection("running_text_items").onSnapshot((snapshot) => {
+                    let texts = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const teksVal = data.teks || data.text;
+                        if ((data.status === 'Aktif' || !data.status) && teksVal) {
+                            texts.push(teksVal);
+                        }
                     });
-                    dotsEl.innerHTML = dotsHtml;
+
+                    if (rtContainer && texts.length > 0) {
+                        rtContainer.innerText = texts.join("     •     ");
+                    }
+                }, (err) => {
+                    console.error("Gagal memuat item running text:", err);
                 });
             }
 
-            function startAutoSlide() {
-                clearInterval(slideTimer);
-                if (slideData.length <= 1) return;
-                
-                slideTimer = setInterval(() => {
-                    slideIndex = (slideIndex + 1) % slideData.length;
-                    renderSlide(slideIndex);
-                }, 4000);
-            }
-
-            window.nextHomeSlide = function() {
-                if (!slideData.length) return;
-                slideIndex = (slideIndex + 1) % slideData.length;
-                renderSlide(slideIndex);
-                startAutoSlide();
-            };
-
-            window.prevHomeSlide = function() {
-                if (!slideData.length) return;
-                slideIndex = (slideIndex - 1 + slideData.length) % slideData.length;
-                renderSlide(slideIndex);
-                startAutoSlide();
-            };
-
-            window.goToHomeSlide = function(i) {
-                slideIndex = i;
-                renderSlide(slideIndex);
-                startAutoSlide();
-            };
-
-            initHomeSlider();
+            setTimeout(initHome, 50);
         })();
     </script>
 </body>

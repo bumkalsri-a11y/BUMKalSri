@@ -1,0 +1,164 @@
+<!-- KONTEN UTAMA HALAMAN PROFIL -->
+<div class="space-y-4 pb-20">
+    <div class="bg-emerald-700 text-white p-5 rounded-none shadow-sm flex items-center justify-between">
+        <div class="space-y-1">
+            <h3 class="text-sm font-bold uppercase tracking-wide">Pengaturan Profil BUMKal</h3>
+            <p class="text-xs text-emerald-100">Kelola informasi profil, alamat, dan identitas resmi lembaga.</p>
+        </div>
+        <div>
+            <span class="px-3 py-1.5 bg-white/10 text-white rounded-none text-xs font-semibold border border-white/20">
+                <i class="fa-solid fa-building-user mr-1.5"></i> Profil Utama
+            </span>
+        </div>
+    </div>
+
+    <!-- KARTU FORM PROFIL -->
+    <div class="p-5 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm">
+        <form id="profilForm" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Lembaga / Instansi</label>
+                    <input type="text" id="profilNama" required placeholder="Contoh: BUMKal Srihardono" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Slogan / Tagline</label>
+                    <input type="text" id="profilSlogan" placeholder="Contoh: Berkarya untuk Desa, Sejahtera untuk Semua" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Kapanewon / Wilayah</label>
+                    <input type="text" id="profilWilayah" placeholder="Contoh: Kapanewon Pundong, Bantul, Yogyakarta" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Nomor Kontak / WhatsApp</label>
+                    <input type="text" id="profilKontak" placeholder="Contoh: 081234567890" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Alamat Lengkap Kantor</label>
+                <textarea id="profilAlamat" rows="2" placeholder="Masukkan alamat lengkap kantor BUMKal..." class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Deskripsi Singkat Lembaga</label>
+                <textarea id="profilDeskripsi" rows="3" placeholder="Pusat layanan digital desa & ekonomi kreatif..." class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600"></textarea>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button type="submit" id="submitProfilBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-none shadow transition-all text-xs cursor-pointer flex items-center space-x-2">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Simpan Profil</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function() {
+        function initProfilPage() {
+            initProfilModals();
+            loadProfilData();
+        }
+
+        function loadProfilData() {
+            if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                setTimeout(loadProfilData, 200);
+                return;
+            }
+
+            firebase.firestore().collection("pengaturan_profil").doc("informasi").get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('profilNama').value = data.nama || '';
+                    document.getElementById('profilSlogan').value = data.slogan || '';
+                    document.getElementById('profilWilayah').value = data.wilayah || '';
+                    document.getElementById('profilKontak').value = data.kontak || '';
+                    document.getElementById('profilAlamat').value = data.alamat || '';
+                    document.getElementById('profilDeskripsi').value = data.deskripsi || '';
+                }
+            }).catch((err) => {
+                console.error("Gagal memuat profil:", err);
+            });
+        }
+
+        window.showProfilNotification = function(message) {
+            initProfilModals();
+            const msgEl = document.getElementById('profilNotifMessageText');
+            if (msgEl) msgEl.innerText = message;
+
+            const modal = document.getElementById('customProfilNotificationModal');
+            const box = document.getElementById('customProfilNotificationBox');
+            if (modal && box) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    box.classList.remove('scale-95', 'opacity-0');
+                    box.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+        };
+
+        window.closeProfilNotification = function() {
+            const modal = document.getElementById('customProfilNotificationModal');
+            const box = document.getElementById('customProfilNotificationBox');
+            if (modal && box) {
+                box.classList.remove('scale-100', 'opacity-100');
+                box.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        };
+
+        function initProfilModals() {
+            if (document.getElementById('customProfilNotificationModal')) return;
+
+            const modalHTML = `
+            <div id="customProfilNotificationModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-[10000] flex items-center justify-center hidden p-4">
+                <div id="customProfilNotificationBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
+                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Berhasil</h3>
+                        <p id="profilNotifMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Profil berhasil disimpan.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button type="button" onclick="closeProfilNotification()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">OK</button>
+                    </div>
+                </div>
+            </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+            document.getElementById('profilForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nama = document.getElementById('profilNama').value.trim();
+                const slogan = document.getElementById('profilSlogan').value.trim();
+                const wilayah = document.getElementById('profilWilayah').value.trim();
+                const kontak = document.getElementById('profilKontak').value.trim();
+                const alamat = document.getElementById('profilAlamat').value.trim();
+                const deskripsi = document.getElementById('profilDeskripsi').value.trim();
+
+                try {
+                    await firebase.firestore().collection("pengaturan_profil").doc("informasi").set({
+                        nama,
+                        slogan,
+                        wilayah,
+                        kontak,
+                        alamat,
+                        deskripsi,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+
+                    showProfilNotification("Profil lembaga berhasil diperbarui!");
+                } catch (error) {
+                    alert("Gagal menyimpan profil: " + error.message);
+                }
+            });
+        }
+
+        initProfilPage();
+    })();
+</script>
