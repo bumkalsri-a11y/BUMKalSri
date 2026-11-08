@@ -1,6 +1,6 @@
 {
-  "name": "RT-KU Online",
-  "short_name": "RT-KU",
+  "name": "BUMKalSri Online",
+  "short_name": "BUMKalSri",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
