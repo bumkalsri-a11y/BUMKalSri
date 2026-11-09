@@ -1,389 +1,440 @@
-<!-- KONTREN UTAMA HALAMAN RUNNING TEXT -->
-<div class="space-y-4 pb-20">
-    <div class="bg-emerald-700 text-white p-5 rounded-none shadow-sm flex items-center justify-between">
-        <div class="space-y-1">
-            <h3 class="text-sm font-bold uppercase tracking-wide">Manajemen Running Text</h3>
-            <p class="text-xs text-emerald-100">Kelola status aktif per item, kecepatan global, dan daftar pengumuman penting.</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Running Text - BUMKal Sinar Mitra Desa</title>
+</head>
+<body>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+    </style>
+
+    <!-- CONTAINER UTAMA DESKTOP (PADDING p-4 pb-12 SAMA PERSIS DENGAN Halaman Lain) -->
+    <div id="spaAppContainer" class="hidden md:flex flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-4 pb-12">
+        
+        <!-- HEADER HALAMAN DESKTOP -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-6 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold tracking-tight">Manajemen Running Text</h2>
+                <p class="text-xs text-amber-300">Kelola status aktif per item, kecepatan global, dan daftar pengumuman penting.</p>
+            </div>
+            <div>
+                <button type="button" onclick="openRunningTextModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-4 py-2 rounded-none text-xs font-semibold transition-all border border-amber-400/30 flex items-center space-x-2 cursor-pointer shadow-sm">
+                    <i class="fa-solid fa-bullhorn text-xs"></i>
+                    <span>+ Tambah Text</span>
+                </button>
+            </div>
         </div>
-        <div>
-            <button type="button" onclick="openRunningTextModal()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-none text-xs font-semibold transition-all border border-white/20 flex items-center space-x-2 cursor-pointer shadow-sm">
-                <i class="fa-solid fa-bullhorn text-sm"></i>
-                <span>+ Tambah Text</span>
-            </button>
+
+        <!-- KARTU PENGATURAN KECEPATAN GLOBAL DESKTOP -->
+        <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-4">
+            <div class="space-y-0.5">
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Kecepatan Jalannya Teks (Global)</h4>
+                <p class="text-[11px] text-slate-400">Pengaturan ini berlaku serentak untuk seluruh running text di beranda.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <select id="globalSpeedSelectDesktop" onchange="updateGlobalSpeed(this.value)" class="w-40 px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-semibold cursor-pointer">
+                    <option value="Lambat">Lambat (45s)</option>
+                    <option value="Sedang">Sedang (25s)</option>
+                    <option value="Cepat">Cepat (12s)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- KONTAINER DAFTAR RUNNING TEXT DESKTOP -->
+        <div class="universal-rt-container no-scrollbar w-full overflow-y-auto space-y-3">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs">
+                Memuat data running text...
+            </div>
         </div>
     </div>
 
-    <!-- KARTU PENGATURAN KECEPATAN GLOBAL -->
-    <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="space-y-0.5">
-            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Kecepatan Jalannya Teks (Global)</h4>
-            <p class="text-[11px] text-slate-400">Pengaturan ini berlaku serentak untuk seluruh running text di beranda.</p>
+    <!-- CONTAINER UTAMA MOBILE (PADDING p-3 pb-24 SAMA PERSIS DENGAN Halaman Lain) -->
+    <div id="spaAppContainerMobile" class="flex md:hidden flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-3 pb-24">
+        
+        <!-- HEADER HALAMAN MOBILE -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-4 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div>
+                <h2 class="text-sm font-bold tracking-tight">Manajemen Running Text</h2>
+                <p class="text-[10px] text-amber-300 mt-0.5">Kelola pengumuman & kecepatan teks</p>
+            </div>
+            <div>
+                <button type="button" onclick="openRunningTextModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-3 py-1.5 rounded-none text-[11px] font-semibold transition-all border border-amber-400/30 flex items-center space-x-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus text-[10px]"></i>
+                    <span>Tambah</span>
+                </button>
+            </div>
         </div>
-        <div class="flex items-center space-x-2 w-full sm:w-auto">
-            <select id="globalSpeedSelect" onchange="updateGlobalSpeed(this.value)" class="w-full sm:w-40 px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-semibold cursor-pointer">
+
+        <!-- KARTU PENGATURAN KECEPATAN GLOBAL MOBILE -->
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 text-[11px] uppercase tracking-wide">Kecepatan Jalannya Teks (Global)</h4>
+            <select id="globalSpeedSelectMobile" onchange="updateGlobalSpeed(this.value)" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-semibold cursor-pointer">
                 <option value="Lambat">Lambat (45s)</option>
                 <option value="Sedang">Sedang (25s)</option>
                 <option value="Cepat">Cepat (12s)</option>
             </select>
         </div>
-    </div>
 
-    <!-- STYLING CSS UTILITY UNTUK MENYEMBUNYIKAN SCROLLBAR -->
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none !important; width: 0px !important; height: 0px !important; }
-        .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
-    </style>
-
-    <!-- Kontainer Daftar Running Text -->
-    <div class="universal-rt-container no-scrollbar max-h-[60vh] overflow-y-auto space-y-3 pr-1">
-        <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-none border border-slate-200/70 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs">
-            Memuat data running text...
+        <!-- KONTAINER DAFTAR RUNNING TEXT MOBILE -->
+        <div class="universal-rt-container no-scrollbar w-full overflow-y-auto space-y-3">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs">
+                Memuat data running text...
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    (function() {
-        let currentDeleteRtId = null;
-        let currentEditRtId = null;
+    <!-- SKRIP LOGIKA & PENGAMBILAN DATA FIRESTORE -->
+    <script>
+        (function() {
+            let currentDeleteRtId = null;
+            let currentEditRtId = null;
 
-        function initRtPage() {
-            initRtModals();
-            loadGlobalConfig();
-            loadRtData();
-        }
+            function initRtPage() {
+                initRtModals();
+                loadGlobalConfig();
+                loadRtData();
+            }
 
-        function loadGlobalConfig() {
-            if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) return;
+            function loadGlobalConfig() {
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) return;
 
-            firebase.firestore().collection("running_text_config").doc("global").get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    const speedSelect = document.getElementById('globalSpeedSelect');
-                    if (speedSelect && data.kecepatan) {
-                        speedSelect.value = data.kecepatan;
+                firebase.firestore().collection("running_text_config").doc("global").get().then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const speedDesktop = document.getElementById('globalSpeedSelectDesktop');
+                        const speedMobile = document.getElementById('globalSpeedSelectMobile');
+                        if (speedDesktop && data.kecepatan) speedDesktop.value = data.kecepatan;
+                        if (speedMobile && data.kecepatan) speedMobile.value = data.kecepatan;
                     }
+                }).catch(err => console.error("Gagal memuat konfigurasi kecepatan:", err));
+            }
+
+            window.updateGlobalSpeed = async function(speedValue) {
+                try {
+                    await firebase.firestore().collection("running_text_config").doc("global").set({
+                        kecepatan: speedValue,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                    showRtNotification(`Kecepatan global diubah menjadi: ${speedValue}`);
+                } catch (error) {
+                    alert("Gagal memperbarui kecepatan: " + error.message);
                 }
-            }).catch(err => console.error("Gagal memuat konfigurasi kecepatan:", err));
-        }
+            };
 
-        window.updateGlobalSpeed = async function(speedValue) {
-            try {
-                await firebase.firestore().collection("running_text_config").doc("global").set({
-                    kecepatan: speedValue,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                showRtNotification(`Kecepatan global diubah menjadi: ${speedValue}`);
-            } catch (error) {
-                alert("Gagal memperbarui kecepatan: " + error.message);
-            }
-        };
-
-        // Fungsi toggle status aktif per item via tombol geser
-        window.toggleItemStatus = async function(id, isChecked) {
-            const newStatus = isChecked ? 'Aktif' : 'Non-Aktif';
-            try {
-                await firebase.firestore().collection("running_text_items").doc(id).update({
-                    status: newStatus
-                });
-                showRtNotification(`Status berhasil diubah menjadi ${newStatus}`);
-            } catch (error) {
-                alert("Gagal mengubah status item: " + error.message);
-                loadRtData(); // Rollback UI jika gagal
-            }
-        };
-
-        function loadRtData() {
-            const containers = document.querySelectorAll('.universal-rt-container');
-            if (!containers.length) return;
-
-            if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
-                setTimeout(loadRtData, 200);
-                return;
-            }
-
-            if (typeof window._rtUnsub === 'function') {
-                window._rtUnsub();
-            }
-
-            try {
-                window._rtUnsub = firebase.firestore().collection("running_text_items")
-                    .onSnapshot((snapshot) => {
-                        let htmlContent = '';
-                        if (snapshot.empty) {
-                            htmlContent = `
-                                <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-none border border-slate-200/70 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs">
-                                    Belum ada data running text di database. Silakan klik "+ Tambah Text".
-                                </div>`;
-                        } else {
-                            snapshot.forEach((docSnap) => {
-                                const item = docSnap.data();
-                                const id = docSnap.id;
-                                const teks = item.teks || '-';
-                                const status = item.status || 'Aktif';
-                                const isChecked = status === 'Aktif' ? 'checked' : '';
-
-                                const safeTeks = teks.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-                                htmlContent += `
-                                    <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-4">
-                                        <div class="space-y-1 overflow-hidden flex-1">
-                                            <div class="flex items-center space-x-2">
-                                                <span class="px-2 py-0.5 ${status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950/65 text-emerald-700 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-500'} font-semibold text-[10px] uppercase">${status}</span>
-                                            </div>
-                                            <p class="font-medium text-slate-800 dark:text-slate-100 text-xs truncate">${teks}</p>
-                                        </div>
-                                        <div class="flex items-center space-x-3 shrink-0">
-                                            <!-- Tombol Geser (Toggle Switch) Per Item -->
-                                            <label class="relative inline-flex items-center cursor-pointer" title="Aktifkan/Nonaktifkan">
-                                                <input type="checkbox" ${isChecked} onchange="toggleItemStatus('${id}', this.checked)" class="sr-only peer">
-                                                <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-none peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:w-4 after:h-4 after:rounded-none after:transition-all peer-checked:bg-emerald-600"></div>
-                                            </label>
-
-                                            <button type="button" onclick="openEditRtModal('${id}', '${safeTeks}', '${status}')" class="px-3 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
-                                            <button type="button" onclick="openConfirmDeleteRtModal('${id}', '${safeTeks}')" class="px-3 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                        }
-
-                        containers.forEach(c => c.innerHTML = htmlContent);
-                    }, (err) => {
-                        console.error("Error mengambil running text:", err);
-                        containers.forEach(c => c.innerHTML = `<div class="p-6 text-center text-red-500 text-xs">Gagal memuat data: ${err.message}</div>`);
+            window.toggleItemStatus = async function(id, isChecked) {
+                const newStatus = isChecked ? 'Aktif' : 'Non-Aktif';
+                try {
+                    await firebase.firestore().collection("running_text_items").doc(id).update({
+                        status: newStatus
                     });
-            } catch (err) {
-                console.error("Firestore Error:", err);
-                setTimeout(loadRtData, 300);
+                    showRtNotification(`Status berhasil diubah menjadi ${newStatus}`);
+                } catch (error) {
+                    alert("Gagal mengubah status item: " + error.message);
+                    loadRtData();
+                }
+            };
+
+            function loadRtData() {
+                const containers = document.querySelectorAll('.universal-rt-container');
+                if (!containers.length) return;
+
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadRtData, 200);
+                    return;
+                }
+
+                if (typeof window._rtUnsub === 'function') {
+                    window._rtUnsub();
+                }
+
+                try {
+                    window._rtUnsub = firebase.firestore().collection("running_text_items")
+                        .onSnapshot((snapshot) => {
+                            let htmlContent = '';
+                            if (snapshot.empty) {
+                                htmlContent = `
+                                    <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs">
+                                        Belum ada data running text di database. Silakan klik "+ Tambah Text".
+                                    </div>`;
+                            } else {
+                                snapshot.forEach((docSnap) => {
+                                    const item = docSnap.data();
+                                    const id = docSnap.id;
+                                    const teks = item.teks || '-';
+                                    const status = item.status || 'Aktif';
+                                    const isChecked = status === 'Aktif' ? 'checked' : '';
+
+                                    const safeTeks = teks.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                                    htmlContent += `
+                                        <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-4">
+                                            <div class="space-y-1 overflow-hidden flex-1">
+                                                <div class="flex items-center space-x-2">
+                                                    <span class="px-2 py-0.5 ${status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950/65 text-emerald-700 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-500'} font-semibold text-[10px] uppercase">${status}</span>
+                                                </div>
+                                                <p class="font-medium text-slate-800 dark:text-slate-100 text-xs truncate">${teks}</p>
+                                            </div>
+                                            <div class="flex items-center space-x-3 shrink-0">
+                                                <label class="relative inline-flex items-center cursor-pointer" title="Aktifkan/Nonaktifkan">
+                                                    <input type="checkbox" ${isChecked} onchange="toggleItemStatus('${id}', this.checked)" class="sr-only peer">
+                                                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-none peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:w-4 after:h-4 after:rounded-none after:transition-all peer-checked:bg-emerald-600"></div>
+                                                </label>
+
+                                                <button type="button" onclick="openEditRtModal('${id}', '${safeTeks}', '${status}')" class="px-3 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
+                                                <button type="button" onclick="openConfirmDeleteRtModal('${id}', '${safeTeks}')" class="px-3 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+                            }
+
+                            containers.forEach(c => c.innerHTML = htmlContent);
+                        }, (err) => {
+                            console.error("Error mengambil running text:", err);
+                            containers.forEach(c => c.innerHTML = `<div class="p-6 text-center text-red-500 text-xs">Gagal memuat data: ${err.message}</div>`);
+                        });
+                } catch (err) {
+                    console.error("Firestore Error:", err);
+                    setTimeout(loadRtData, 300);
+                }
             }
-        }
 
-        window.openRunningTextModal = function() {
-            currentEditRtId = null;
-            initRtModals();
-            const modalTitle = document.getElementById('modalRtTitle');
-            const submitBtn = document.getElementById('submitRtBtn');
-            const form = document.getElementById('rtForm');
+            window.openRunningTextModal = function() {
+                currentEditRtId = null;
+                initRtModals();
+                const modalTitle = document.getElementById('modalRtTitle');
+                const submitBtn = document.getElementById('submitRtBtn');
+                const form = document.getElementById('rtForm');
 
-            if (modalTitle) modalTitle.innerText = "Form Input Running Text";
-            if (submitBtn) submitBtn.innerText = "Simpan Text";
-            if (form) form.reset();
+                if (modalTitle) modalTitle.innerText = "Form Input Running Text";
+                if (submitBtn) submitBtn.innerText = "Simpan Text";
+                if (form) form.reset();
 
-            const modal = document.getElementById('customRtModal');
-            const box = document.getElementById('customRtBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
+                const modal = document.getElementById('customRtModal');
+                const box = document.getElementById('customRtBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
 
-        window.openEditRtModal = function(id, teks, status) {
-            currentEditRtId = id;
-            initRtModals();
-            
-            const modalTitle = document.getElementById('modalRtTitle');
-            const submitBtn = document.getElementById('submitRtBtn');
-            const teksInput = document.getElementById('rtTeks');
-            const statusSelect = document.getElementById('rtStatus');
+            window.openEditRtModal = function(id, teks, status) {
+                currentEditRtId = id;
+                initRtModals();
+                
+                const modalTitle = document.getElementById('modalRtTitle');
+                const submitBtn = document.getElementById('submitRtBtn');
+                const teksInput = document.getElementById('rtTeks');
+                const statusSelect = document.getElementById('rtStatus');
 
-            if (modalTitle) modalTitle.innerText = "Form Edit Running Text";
-            if (submitBtn) submitBtn.innerText = "Perbarui Text";
-            if (teksInput) teksInput.value = teks;
-            if (statusSelect) statusSelect.value = status;
+                if (modalTitle) modalTitle.innerText = "Form Edit Running Text";
+                if (submitBtn) submitBtn.innerText = "Perbarui Text";
+                if (teksInput) teksInput.value = teks;
+                if (statusSelect) statusSelect.value = status;
 
-            const modal = document.getElementById('customRtModal');
-            const box = document.getElementById('customRtBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
+                const modal = document.getElementById('customRtModal');
+                const box = document.getElementById('customRtBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
 
-        window.closeRtModal = function() {
-            const modal = document.getElementById('customRtModal');
-            const box = document.getElementById('customRtBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { 
-                    modal.classList.add('hidden'); 
-                    currentEditRtId = null;
-                }, 300);
-            }
-        };
+            window.closeRtModal = function() {
+                const modal = document.getElementById('customRtModal');
+                const box = document.getElementById('customRtBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => { 
+                        modal.classList.add('hidden'); 
+                        currentEditRtId = null;
+                    }, 300);
+                }
+            };
 
-        window.openConfirmDeleteRtModal = function(id, teks) {
-            initRtModals();
-            currentDeleteRtId = id;
-            const msg = document.getElementById('deleteRtMessageText');
-            if (msg) msg.innerText = `Apakah Anda yakin ingin menghapus pengumuman ini?`;
+            window.openConfirmDeleteRtModal = function(id, teks) {
+                initRtModals();
+                currentDeleteRtId = id;
+                const msg = document.getElementById('deleteRtMessageText');
+                if (msg) msg.innerText = `Apakah Anda yakin ingin menghapus pengumuman ini?`;
 
-            const modal = document.getElementById('customDeleteRtModal');
-            const box = document.getElementById('customDeleteRtBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
+                const modal = document.getElementById('customDeleteRtModal');
+                const box = document.getElementById('customDeleteRtBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
 
-        window.closeConfirmDeleteRtModal = function() {
-            const modal = document.getElementById('customDeleteRtModal');
-            const box = document.getElementById('customDeleteRtBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    currentDeleteRtId = null;
-                }, 300);
-            }
-        };
+            window.closeConfirmDeleteRtModal = function() {
+                const modal = document.getElementById('customDeleteRtModal');
+                const box = document.getElementById('customDeleteRtBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        currentDeleteRtId = null;
+                    }, 300);
+                }
+            };
 
-        window.showRtNotification = function(message) {
-            initRtModals();
-            const msgEl = document.getElementById('rtNotifMessageText');
-            if (msgEl) msgEl.innerText = message;
+            window.showRtNotification = function(message) {
+                initRtModals();
+                const msgEl = document.getElementById('rtNotifMessageText');
+                if (msgEl) msgEl.innerText = message;
 
-            const modal = document.getElementById('customRtNotificationModal');
-            const box = document.getElementById('customRtNotificationBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
+                const modal = document.getElementById('customRtNotificationModal');
+                const box = document.getElementById('customRtNotificationBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
 
-        window.closeRtNotification = function() {
-            const modal = document.getElementById('customRtNotificationModal');
-            const box = document.getElementById('customRtNotificationBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { modal.classList.add('hidden'); }, 300);
-            }
-        };
+            window.closeRtNotification = function() {
+                const modal = document.getElementById('customRtNotificationModal');
+                const box = document.getElementById('customRtNotificationBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                }
+            };
 
-        function initRtModals() {
-            if (document.getElementById('customRtModal')) return;
+            function initRtModals() {
+                if (document.getElementById('customRtModal')) return;
 
-            const modalsHTML = `
-            <div id="customRtModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
-                <div id="customRtBox" class="w-full max-w-md bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out">
-                    <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
-                        <h3 id="modalRtTitle" class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Running Text</h3>
-                        <button type="button" onclick="closeRtModal()" class="w-6 h-6 rounded-none bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs cursor-pointer">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                const modalsHTML = `
+                <div id="customRtModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
+                    <div id="customRtBox" class="w-full max-w-md bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                        <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
+                            <h3 id="modalRtTitle" class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Running Text</h3>
+                            <button type="button" onclick="closeRtModal()" class="w-6 h-6 rounded-none bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs cursor-pointer">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <form id="rtForm" class="space-y-3 text-xs">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Isi Pengumuman / Teks Berjalan</label>
+                                <textarea id="rtTeks" rows="3" required placeholder="Contoh: Selamat datang di portal resmi BUMKal..." class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Publikasi</label>
+                                <select id="rtStatus" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Non-Aktif">Non-Aktif</option>
+                                </select>
+                            </div>
+                            <div class="flex space-x-2 pt-2">
+                                <button type="button" onclick="closeRtModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
+                                <button type="submit" id="submitRtBtn" class="w-1/2 bg-emerald-800 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Text</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
-                    <form id="rtForm" class="space-y-3 text-xs">
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Isi Pengumuman / Teks Berjalan</label>
-                            <textarea id="rtTeks" rows="3" required placeholder="Contoh: Selamat datang di portal resmi BUMKal Srihardono..." class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600"></textarea>
+                <div id="customDeleteRtModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
+                    <div id="customDeleteRtBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
+                        <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Publikasi</label>
-                            <select id="rtStatus" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
-                                <option value="Aktif">Aktif</option>
-                                <option value="Non-Aktif">Non-Aktif</option>
-                            </select>
+                            <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Konfirmasi Hapus</h3>
+                            <p id="deleteRtMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Apakah Anda yakin ingin menghapus?</p>
                         </div>
                         <div class="flex space-x-2 pt-2">
-                            <button type="button" onclick="closeRtModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
-                            <button type="submit" id="submitRtBtn" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Text</button>
+                            <button type="button" onclick="closeConfirmDeleteRtModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
+                            <button type="button" id="confirmDeleteRtBtn" class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Hapus</button>
                         </div>
-                    </form>
-                </div>
-            </div>
-
-            <div id="customDeleteRtModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
-                <div id="customDeleteRtBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
-                    <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 rounded-full flex items-center justify-center mx-auto text-lg">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Konfirmasi Hapus</h3>
-                        <p id="deleteRtMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Apakah Anda yakin ingin menghapus?</p>
-                    </div>
-                    <div class="flex space-x-2 pt-2">
-                        <button type="button" onclick="closeConfirmDeleteRtModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
-                        <button type="button" id="confirmDeleteRtBtn" class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Hapus</button>
                     </div>
                 </div>
-            </div>
 
-            <div id="customRtNotificationModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-[10000] flex items-center justify-center hidden p-4">
-                <div id="customRtNotificationBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
-                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Berhasil</h3>
-                        <p id="rtNotifMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pesan berhasil disimpan.</p>
-                    </div>
-                    <div class="pt-2">
-                        <button type="button" onclick="closeRtNotification()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">OK</button>
+                <div id="customRtNotificationModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-[10000] flex items-center justify-center hidden p-4">
+                    <div id="customRtNotificationBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
+                        <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Berhasil</h3>
+                            <p id="rtNotifMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pesan berhasil disimpan.</p>
+                        </div>
+                        <div class="pt-2">
+                            <button type="button" onclick="closeRtNotification()" class="w-full bg-emerald-800 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">OK</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalsHTML);
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalsHTML);
 
-            document.getElementById('confirmDeleteRtBtn').addEventListener('click', async () => {
-                if (!currentDeleteRtId) return;
-                try {
-                    await firebase.firestore().collection("running_text_items").doc(currentDeleteRtId).delete();
-                    closeConfirmDeleteRtModal();
-                    showRtNotification("Running text berhasil dihapus!");
-                } catch (error) {
-                    alert("Gagal menghapus: " + error.message);
-                }
-            });
-
-            document.getElementById('rtForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const teks = document.getElementById('rtTeks').value.trim();
-                const status = document.getElementById('rtStatus').value;
-
-                if (!teks) return;
-
-                try {
-                    const docRef = currentEditRtId 
-                        ? firebase.firestore().collection("running_text_items").doc(currentEditRtId)
-                        : firebase.firestore().collection("running_text_items").doc();
-
-                    const payload = { teks, status };
-                    if (!currentEditRtId) {
-                        payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                document.getElementById('confirmDeleteRtBtn').addEventListener('click', async () => {
+                    if (!currentDeleteRtId) return;
+                    try {
+                        await firebase.firestore().collection("running_text_items").doc(currentDeleteRtId).delete();
+                        closeConfirmDeleteRtModal();
+                        showRtNotification("Running text berhasil dihapus!");
+                    } catch (error) {
+                        alert("Gagal menghapus: " + error.message);
                     }
+                });
 
-                    if (currentEditRtId) {
-                        await docRef.update(payload);
-                    } else {
-                        await docRef.set(payload);
+                document.getElementById('rtForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const teks = document.getElementById('rtTeks').value.trim();
+                    const status = document.getElementById('rtStatus').value;
+
+                    if (!teks) return;
+
+                    try {
+                        const docRef = currentEditRtId 
+                            ? firebase.firestore().collection("running_text_items").doc(currentEditRtId)
+                            : firebase.firestore().collection("running_text_items").doc();
+
+                        const payload = { teks, status };
+                        if (!currentEditRtId) {
+                            payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                        }
+
+                        if (currentEditRtId) {
+                            await docRef.update(payload);
+                        } else {
+                            await docRef.set(payload);
+                        }
+
+                        closeRtModal();
+                        document.getElementById('rtForm').reset();
+                        showRtNotification(`Running text berhasil ${currentEditRtId ? 'diperbarui' : 'disimpan'}!`);
+                    } catch (error) {
+                        alert("Gagal menyimpan ke database: " + error.message);
                     }
+                });
+            }
 
-                    closeRtModal();
-                    document.getElementById('rtForm').reset();
-                    showRtNotification(`Running text berhasil ${currentEditRtId ? 'diperbarui' : 'disimpan'}!`);
-                } catch (error) {
-                    alert("Gagal menyimpan ke database: " + error.message);
-                }
-            });
-        }
-
-        initRtPage();
-    })();
-</script>
+            setTimeout(initRtPage, 50);
+        })();
+    </script>
+</body>
+</html>

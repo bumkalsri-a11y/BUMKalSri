@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="page-title">BUMKal Srihardono - Dashboard</title>
+    <title id="page-title">BUMKal Sinar Mitra Desa - Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -71,14 +71,14 @@
         
         <!-- SIDEBAR GLOBAL DESKTOP -->
         <aside id="desktopSidebar" class="w-64 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex flex-col justify-between shrink-0 h-screen transition-all duration-300 relative border-r border-slate-200 dark:border-slate-700 shadow-sm">
-            <div class="p-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 shrink-0 overflow-hidden">
+            <div class="px-4 py-3 flex items-center justify-between border-b border-emerald-950/40 shrink-0 overflow-hidden bg-gradient-to-r from-emerald-900 to-emerald-800 text-white h-[53px]">
                 <div class="flex items-center space-x-3 overflow-hidden cursor-pointer" onclick="loadPageContent('layout.html?page=home')">
-                    <div class="w-9 h-9 rounded-none bg-emerald-700 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
-                        🏛️
+                    <div class="w-8 h-8 rounded-none bg-amber-500 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-md">
+                        🌿
                     </div>
                     <div class="sidebar-text overflow-hidden whitespace-nowrap">
-                        <h1 class="font-bold text-slate-800 dark:text-slate-100 text-xs tracking-wider">BUMKal</h1>
-                        <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium truncate">Srihardono, Pundong</p>
+                        <h1 class="font-bold text-white text-xs tracking-wider">BUMKal</h1>
+                        <p class="text-[9px] text-amber-200 font-medium truncate">Sinar Mitra Desa</p>
                     </div>
                 </div>
             </div>
@@ -97,9 +97,10 @@
                     <i class="fa-solid fa-store w-5 text-center text-xs"></i>
                     <span class="sidebar-text">Unit Usaha</span>
                 </a>
-                <a href="layout.html?page=umkm" class="flex items-center space-x-3 px-3 py-2.5 rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium text-xs transition-all">
-                    <i class="fa-solid fa-bag-shopping w-5 text-center text-xs"></i>
-                    <span class="sidebar-text">UMKM</span>
+                <!-- MENU GALERI (MENGGANTIKAN UMKM) -->
+                <a href="layout.html?page=galeri" class="flex items-center space-x-3 px-3 py-2.5 rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium text-xs transition-all">
+                    <i class="fa-solid fa-image w-5 text-center text-xs"></i>
+                    <span class="sidebar-text">Galeri</span>
                 </a>
 
                 <!-- KELOMPOK KATEGORI ADMINISTRATOR -->
@@ -121,51 +122,58 @@
                 </a>
             </div>
 
-            <div class="p-3 border-t border-slate-100 dark:border-slate-700 shrink-0 text-center">
-                <span class="sidebar-text text-[10px] text-slate-400">&copy; 2026 BUMKal Srihardono</span>
+            <!-- COPYRIGHT DIBAWAH SIDEBAR -->
+            <div class="p-3 border-t border-slate-200 dark:border-slate-700 shrink-0 text-center bg-slate-50 dark:bg-slate-800/80">
+                <span class="sidebar-text text-[11px] font-semibold text-slate-900 dark:text-slate-100">&copy; 2026 BUMKal Sinar Mitra Desa</span>
             </div>
         </aside>
 
         <!-- AREA UTAMA DESKTOP -->
         <main class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50 dark:bg-slate-900">
-            <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between shrink-0 shadow-sm">
+            <header class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white border-b border-emerald-950/40 px-6 py-3 flex items-center justify-between shrink-0 shadow-md h-[53px]">
                 <div class="flex items-center space-x-3">
-                    <!-- TOMBOL TOGGLE SIDEBAR (SEBELAH KIRI) -->
-                    <button onclick="toggleSidebar()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition cursor-pointer" title="Sembunyikan/Tampilkan Sidebar">
+                    <button onclick="toggleSidebar()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-none flex items-center justify-center text-white transition cursor-pointer" title="Sembunyikan/Tampilkan Sidebar">
                         <i class="fa-solid fa-bars text-xs"></i>
                     </button>
-                    <div class="flex items-center space-x-2">
-                        <i class="fa-solid fa-location-dot text-emerald-600 dark:text-emerald-400 text-xs"></i>
-                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Pundong, Bantul, Yogyakarta</span>
+                    <div class="flex items-center space-x-4 text-xs font-semibold text-emerald-100">
+                        <span class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-location-dot text-amber-400"></i>
+                            <span id="header-alamat-desktop">Memuat alamat...</span>
+                        </span>
+                        <span class="flex items-center space-x-1.5 border-l border-white/20 pl-4">
+                            <i class="fa-solid fa-phone text-amber-400"></i>
+                            <span id="header-kontak-desktop">Memuat kontak...</span>
+                        </span>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button onclick="toggleTheme()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition cursor-pointer" title="Ganti Tema">
+                    <button onclick="toggleTheme()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-none flex items-center justify-center text-white transition cursor-pointer" title="Ganti Tema">
                         <i class="fa-solid fa-moon dark:hidden text-xs"></i>
-                        <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-400"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-300"></i>
                     </button>
 
-                    <div id="db-status" class="w-7 h-7 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center border border-slate-200 dark:border-slate-600 shadow-inner" title="Status Database"></div>
+                    <div id="db-status" class="w-7 h-7 bg-white/10 rounded-none flex items-center justify-center border border-white/20 shadow-inner" title="Status Database"></div>
 
-                    <div class="flex items-center space-x-2 pl-2 border-l border-slate-200 dark:border-slate-700">
-                        <div class="w-8 h-8 rounded-none bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">
-                            <span id="userInitial">BS</span>
+                    <div class="flex items-center space-x-2 pl-2 border-l border-white/20">
+                        <div class="w-8 h-8 rounded-none bg-amber-500 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                            <span id="userInitial">SM</span>
                         </div>
                         <div class="hidden lg:block text-left">
-                            <p id="userName" class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">Memuat...</p>
-                            <p id="userEmail" class="text-[10px] text-slate-400 dark:text-slate-400 leading-tight">...</p>
+                            <p id="userName" class="text-xs font-bold text-white leading-tight">Memuat...</p>
+                            <p id="userEmail" class="text-[10px] text-emerald-200 leading-tight">...</p>
                         </div>
                     </div>
 
-                    <button onclick="logoutApp()" class="p-2 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 transition rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" title="Keluar">
+                    <button onclick="logoutApp()" class="p-2 text-white/80 hover:text-red-300 transition rounded-none hover:bg-white/10 cursor-pointer" title="Keluar">
                         <i class="fa-solid fa-power-off text-sm"></i>
                     </button>
                 </div>
             </header>
 
-            <div id="mainContentArea" class="flex-1 flex flex-col overflow-y-auto p-6 space-y-6 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
-                <!-- Konten dinamis dimuat di sini -->
+            <!-- CONTAINER KONTEN DINAMIS DESKTOP (PADDING DIATUR PENUH SEHINGGA SESUAI DENGAN PADDING UNIT USAHA & HOME) -->
+            <div id="mainContentArea" class="flex-1 flex flex-col overflow-y-auto p-0 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+                <!-- Konten dinamis desktop dimuat di sini -->
             </div>
         </main>
     </div>
@@ -173,29 +181,29 @@
     <!-- TAMPILAN MOBILE -->
     <div class="flex md:hidden w-full h-screen sm:max-w-[400px] sm:h-[92vh] sm:max-h-[820px] bg-slate-50 dark:bg-slate-900 sm:rounded-none shadow-2xl flex-col justify-between relative sm:border-[6px] sm:border-slate-800">
         
-        <!-- Header Mobile (Mendukung Light & Dark Mode) -->
-        <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 pt-3 pb-3 shrink-0 relative flex items-center justify-between border-b border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+        <!-- HEADER MOBILE -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white px-4 pt-3 pb-3 shrink-0 relative flex items-center justify-between border-b border-emerald-950/40 shadow-md">
             <div class="flex items-center space-x-2.5 overflow-hidden">
-                <div class="w-8 h-8 bg-emerald-700 dark:bg-emerald-800 flex items-center justify-center text-white rounded-full p-1 shrink-0 text-sm shadow-sm">
-                    🏛️
+                <div class="w-8 h-8 bg-amber-500 flex items-center justify-center text-white rounded-full p-1 shrink-0 text-sm shadow-sm font-bold">
+                    🌿
                 </div>
                 <div class="overflow-hidden">
-                    <h2 class="text-xs font-bold truncate leading-tight">BUMKal Srihardono</h2>
-                    <p class="text-[9px] text-emerald-600 dark:text-emerald-400 font-medium">Pundong, Bantul</p>
+                    <h2 class="text-xs font-bold truncate leading-tight text-white">BUMKal Sinar Mitra Desa</h2>
+                    <p class="text-[9px] text-amber-300 font-medium truncate" id="header-alamat-mobile">Memuat alamat...</p>
                 </div>
             </div>
             
             <div class="flex items-center space-x-2 shrink-0 relative">
-                <button onclick="toggleTheme()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+                <button onclick="toggleTheme()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-none flex items-center justify-center text-white cursor-pointer transition">
                     <i class="fa-solid fa-moon dark:hidden text-xs"></i>
-                    <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-400"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-300"></i>
                 </button>
 
-                <button onclick="toggleProfileDropdown(event)" class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer hover:bg-emerald-700 transition">
-                    <span id="userInitialDropdown">BS</span>
+                <button onclick="toggleProfileDropdown(event)" class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer hover:bg-amber-600 transition">
+                    <span id="userInitialDropdown">SM</span>
                 </button>
 
-                <!-- DROPDOWN MENU PROFIL (DIUBAH JADI KOTAK SIKU / ROUNDED-NONE) -->
+                <!-- DROPDOWN MENU PROFIL -->
                 <div id="profileDropdown" class="hidden absolute top-10 right-0 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none shadow-2xl p-2 w-44 z-50 space-y-1 text-slate-800 dark:text-slate-200">
                     <div id="absensiMenuContainer">
                         <a href="layout.html?page=absensi" class="flex items-center space-x-2.5 px-3 py-2 rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-medium transition">
@@ -212,8 +220,8 @@
             </div>
         </div>
 
-        <!-- Area Konten Mobile -->
-        <div id="mainContentAreaMobile" class="flex-1 flex flex-col overflow-y-auto p-4 pb-24 space-y-4 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+        <!-- CONTAINER KONTEN DINAMIS MOBILE (PADDING DIATUR PENUH UNTUK KESESUAIAN SEAMLESS) -->
+        <div id="mainContentAreaMobile" class="flex-1 flex flex-col overflow-y-auto p-0 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
             <!-- Konten dinamis mobile dimuat di sini -->
         </div>
 
@@ -226,6 +234,37 @@
         import { renderNavigation } from "./assets/js/navigation.js";
 
         window._cachedLayout = window._cachedLayout || null;
+
+        window.loadGlobalProfileHeader = function() {
+            if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                setTimeout(loadGlobalProfileHeader, 100);
+                return;
+            }
+
+            const db = firebase.firestore();
+            db.collection("pengaturan_profil").doc("informasi").get().then((doc) => {
+                if (doc && doc.exists) {
+                    const data = doc.data();
+                    const alamatVal = data.alamat || "";
+                    const kontakVal = data.kontak || "";
+                    
+                    const alamatMobileEl = document.getElementById('header-alamat-mobile');
+                    if (alamatMobileEl && alamatVal) {
+                        alamatMobileEl.innerText = alamatVal;
+                    }
+
+                    const alamatDesktopEl = document.getElementById('header-alamat-desktop');
+                    if (alamatDesktopEl && alamatVal) {
+                        alamatDesktopEl.innerText = alamatVal;
+                    }
+
+                    const kontakDesktopEl = document.getElementById('header-kontak-desktop');
+                    if (kontakDesktopEl && kontakVal) {
+                        kontakDesktopEl.innerText = kontakVal;
+                    }
+                }
+            }).catch(e => console.log(e));
+        };
 
         window.loadPageContent = async function(targetUrl) {
             try {
@@ -253,16 +292,21 @@
                 const mainArea = document.getElementById('mainContentArea');
                 const mainAreaMobile = document.getElementById('mainContentAreaMobile');
                 
-                const pageContentHTML = docParsed.body.innerHTML;
+                const desktopPayload = docParsed.getElementById('spaAppContainer');
+                const mobilePayload = docParsed.getElementById('spaAppContainerMobile');
 
-                if (mainArea) {
-                    mainArea.innerHTML = pageContentHTML;
-                }
-                if (mainAreaMobile) {
-                    mainAreaMobile.innerHTML = pageContentHTML;
+                if (desktopPayload && mainArea) {
+                    mainArea.innerHTML = desktopPayload.outerHTML;
+                } else if (mainArea) {
+                    mainArea.innerHTML = docParsed.body.innerHTML;
                 }
 
-                // Render ulang skrip di dalam halaman jika ada
+                if (mobilePayload && mainAreaMobile) {
+                    mainAreaMobile.innerHTML = mobilePayload.outerHTML;
+                } else if (mainAreaMobile) {
+                    mainAreaMobile.innerHTML = docParsed.body.innerHTML;
+                }
+
                 document.querySelectorAll('script[data-dynamic-script]').forEach(el => el.remove());
                 docParsed.querySelectorAll('script').forEach(oldScript => {
                     const newScript = document.createElement('script');
@@ -275,7 +319,6 @@
                     document.body.appendChild(newScript);
                 });
 
-                // Perbarui menu sidebar aktif
                 document.querySelectorAll('#desktopSidebar a').forEach(el => {
                     el.className = "flex items-center space-x-3 px-3 py-2.5 rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium text-xs transition-all";
                     if (el.getAttribute('href') && el.getAttribute('href').includes(`page=${page}`)) {
@@ -283,16 +326,19 @@
                     }
                 });
 
-                // Render navigasi bawah HP dengan role pengguna
                 const navContainerEl = document.getElementById('nav-container');
                 if (navContainerEl) {
                     navContainerEl.innerHTML = renderNavigation(page, true, window.currentUserRole || 'warga');
                 }
 
+                window.loadGlobalProfileHeader();
+
             } catch (error) {
                 console.error("Gagal memuat halaman:", error);
                 const mainArea = document.getElementById('mainContentArea');
+                const mainAreaMobile = document.getElementById('mainContentAreaMobile');
                 if (mainArea) mainArea.innerHTML = `<div class="p-8 text-center text-red-500 text-xs">Halaman gagal dimuat.</div>`;
+                if (mainAreaMobile) mainAreaMobile.innerHTML = `<div class="p-8 text-center text-red-500 text-xs">Halaman gagal dimuat.</div>`;
             }
         };
 
@@ -325,6 +371,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof updateDbStatus === 'function') updateDbStatus('db-status');
+            window.loadGlobalProfileHeader();
 
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {

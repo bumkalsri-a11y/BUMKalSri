@@ -1,395 +1,504 @@
-<!-- KONTEN UTAMA HALAMAN BANNER -->
-<div class="space-y-4 pb-20">
-    <div class="bg-emerald-700 text-white p-5 rounded-none shadow-sm flex items-center justify-between">
-        <div class="space-y-1">
-            <h3 class="text-sm font-bold uppercase tracking-wide">Manajemen Banner</h3>
-            <p class="text-xs text-emerald-100">Unggah dan kelola gambar banner promosi yang tampil di halaman utama.</p>
-        </div>
-        <div>
-            <button type="button" onclick="openBannerModal()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-none text-xs font-semibold transition-all border border-white/20 flex items-center space-x-2 cursor-pointer shadow-sm">
-                <i class="fa-solid fa-panorama text-sm"></i>
-                <span>+ Tambah Banner</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- STYLING CSS UTILITY UNTUK MENYEMBUNYIKAN SCROLLBAR TETAPI TETAP BISA DI-SCROLL -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Banner - BUMKal Sinar Mitra Desa</title>
+</head>
+<body>
     <style>
-        .no-scrollbar::-webkit-scrollbar { display: none !important; width: 0px !important; height: 0px !important; }
-        .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
     </style>
 
-    <!-- Kontainer Banner dengan Perbaikan Kelas Grid & Tinggi Kontainer -->
-    <div class="universal-banner-container no-scrollbar w-full overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pr-1">
-        <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-none border border-slate-200/70 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
-            Memuat data banner...
+    <!-- CONTAINER UTAMA DESKTOP (PADDING p-4 pb-12 SAMA PERSIS DENGAN UNIT USAHA & PROFIL) -->
+    <div id="spaAppContainer" class="hidden md:flex flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-4 pb-12">
+        
+        <!-- HEADER HALAMAN DESKTOP -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-6 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold tracking-tight">Manajemen Banner</h2>
+                <p class="text-xs text-amber-300">Unggah dan kelola gambar banner promosi yang tampil di halaman utama.</p>
+            </div>
+            <div>
+                <button type="button" onclick="openBannerModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-4 py-2 rounded-none text-xs font-semibold transition-all border border-amber-400/30 flex items-center space-x-2 cursor-pointer shadow-sm">
+                    <i class="fa-solid fa-panorama text-xs"></i>
+                    <span>+ Tambah Banner</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- INFORMASI JUMLAH BANNER DESKTOP -->
+        <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center">
+                    <i class="fa-solid fa-images text-base"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Statistik Banner</h4>
+                    <p class="text-[11px] text-slate-400">Ringkasan seluruh banner promosi yang terdaftar</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <span class="block text-[10px] text-slate-400 uppercase font-semibold">Total Banner</span>
+                    <span id="bannerCountTotalDesktop" class="text-sm font-bold text-slate-800 dark:text-slate-100">0</span>
+                </div>
+                <div class="h-8 border-r border-slate-200 dark:border-slate-700"></div>
+                <div class="text-right">
+                    <span class="block text-[10px] text-emerald-600 dark:text-emerald-400 uppercase font-semibold">Aktif</span>
+                    <span id="bannerCountAktifDesktop" class="text-sm font-bold text-emerald-600 dark:text-emerald-400">0</span>
+                </div>
+                <div class="h-8 border-r border-slate-200 dark:border-slate-700"></div>
+                <div class="text-right">
+                    <span class="block text-[10px] text-slate-400 uppercase font-semibold">Non-Aktif</span>
+                    <span id="bannerCountNonAktifDesktop" class="text-sm font-bold text-slate-500">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID BANNER DESKTOP -->
+        <div class="universal-banner-container no-scrollbar w-full overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data banner...
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    (function() {
-        let currentDeleteBannerId = null;
-        let currentEditBannerId = null;
-
-        function initBannerPage() {
-            initBannerModals();
-            loadBannerData();
-        }
-
-        function loadBannerData() {
-            const containers = document.querySelectorAll('.universal-banner-container');
-            if (!containers.length) return;
-
-            if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
-                setTimeout(loadBannerData, 200);
-                return;
-            }
-
-            if (typeof window._bannerUnsub === 'function') {
-                window._bannerUnsub();
-            }
-
-            try {
-                window._bannerUnsub = firebase.firestore().collection("banner")
-                    .onSnapshot((snapshot) => {
-                        let htmlContent = '';
-                        if (snapshot.empty) {
-                            htmlContent = `
-                                <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-none border border-slate-200/70 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
-                                    Belum ada data banner di database.
-                                </div>`;
-                        } else {
-                            snapshot.forEach((docSnap) => {
-                                const item = docSnap.data();
-                                const id = docSnap.id;
-                                const judul = item.judul || '-';
-                                const status = item.status || 'Aktif';
-                                const image = item.image || '';
-
-                                const safeJudul = judul.replace(/'/g, "\\'");
-
-                                htmlContent += `
-                                    <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
-                                        <div>
-                                            <div class="w-full h-32 bg-slate-100 dark:bg-slate-900 rounded-none overflow-hidden flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
-                                                ${image ? `<img src="${image}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-image text-2xl"></i>'}
-                                            </div>
-                                            <div class="mt-2">
-                                                <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-semibold text-[10px] uppercase">${status}</span>
-                                                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs mt-1">${judul}</h4>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center space-x-2 pt-2 border-t border-slate-100 dark:border-slate-700">
-                                            <button type="button" onclick="openEditBannerModal('${id}', '${safeJudul}', '${status}')" class="flex-1 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
-                                            <button type="button" onclick="openConfirmDeleteBannerModal('${id}', '${safeJudul}')" class="flex-1 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                        }
-
-                        containers.forEach(c => c.innerHTML = htmlContent);
-                    }, (err) => {
-                        console.error("Error mengambil banner:", err);
-                        containers.forEach(c => c.innerHTML = `<div class="p-6 text-center text-red-500 text-xs col-span-full">Gagal memuat data banner: ${err.message}</div>`);
-                    });
-            } catch (err) {
-                console.error("Firestore Error:", err);
-                setTimeout(loadBannerData, 300);
-            }
-        }
-
-        window.openBannerModal = function() {
-            currentEditBannerId = null;
-            initBannerModals();
-            const modalTitle = document.getElementById('modalBannerTitle');
-            const submitBtn = document.getElementById('submitBannerBtn');
-            const form = document.getElementById('bannerForm');
-
-            if (modalTitle) modalTitle.innerText = "Form Input Banner";
-            if (submitBtn) submitBtn.innerText = "Simpan Banner";
-            if (form) form.reset();
-
-            const imgInput = document.getElementById('bannerImage');
-            if (imgInput) imgInput.setAttribute('required', 'required');
-
-            const modal = document.getElementById('customBannerModal');
-            const box = document.getElementById('customBannerBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
-
-        window.openEditBannerModal = function(id, title, status) {
-            currentEditBannerId = id;
-            initBannerModals();
-            
-            const modalTitle = document.getElementById('modalBannerTitle');
-            const submitBtn = document.getElementById('submitBannerBtn');
-            const titleInput = document.getElementById('bannerTitle');
-            const statusSelect = document.getElementById('bannerStatus');
-            const imgInput = document.getElementById('bannerImage');
-
-            if (modalTitle) modalTitle.innerText = "Form Edit Banner";
-            if (submitBtn) submitBtn.innerText = "Perbarui Banner";
-            if (titleInput) titleInput.value = title;
-            if (statusSelect) statusSelect.value = status;
-            if (imgInput) imgInput.removeAttribute('required');
-
-            const modal = document.getElementById('customBannerModal');
-            const box = document.getElementById('customBannerBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
-
-        window.closeBannerModal = function() {
-            const modal = document.getElementById('customBannerModal');
-            const box = document.getElementById('customBannerBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { 
-                    modal.classList.add('hidden'); 
-                    currentEditBannerId = null;
-                }, 300);
-            }
-        };
-
-        window.openConfirmDeleteBannerModal = function(id, bannerTitle) {
-            initBannerModals();
-            currentDeleteBannerId = id;
-            const msg = document.getElementById('deleteMessageText');
-            if (msg) msg.innerText = `Apakah Anda yakin ingin menghapus "${bannerTitle}"?`;
-
-            const modal = document.getElementById('customDeleteModal');
-            const box = document.getElementById('customDeleteBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
-
-        window.closeConfirmDeleteModal = function() {
-            const modal = document.getElementById('customDeleteModal');
-            const box = document.getElementById('customDeleteBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    currentDeleteBannerId = null;
-                }, 300);
-            }
-        };
-
-        window.showBannerNotification = function(message, type = 'success') {
-            initBannerModals();
-            const msgEl = document.getElementById('notifMessageText');
-            const titleEl = document.getElementById('notifTitleText');
-            const iconEl = document.getElementById('notifIconContainer');
-
-            if (msgEl) msgEl.innerText = message;
-            if (titleEl) titleEl.innerText = type === 'success' ? 'Berhasil' : 'Informasi';
-            if (iconEl) {
-                iconEl.className = "w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg";
-                iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
-            }
-
-            const modal = document.getElementById('customNotificationModal');
-            const box = document.getElementById('customNotificationBox');
-            if (modal && box) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    box.classList.remove('scale-95', 'opacity-0');
-                    box.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
-
-        window.closeBannerNotification = function() {
-            const modal = document.getElementById('customNotificationModal');
-            const box = document.getElementById('customNotificationBox');
-            if (modal && box) {
-                box.classList.remove('scale-100', 'opacity-100');
-                box.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { modal.classList.add('hidden'); }, 300);
-            }
-        };
-
-        function initBannerModals() {
-            if (document.getElementById('customBannerModal')) return;
-
-            const modalsHTML = `
-            <div id="customBannerModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
-                <div id="customBannerBox" class="w-full max-w-md bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out">
-                    <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
-                        <h3 id="modalBannerTitle" class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Banner</h3>
-                        <button type="button" onclick="closeBannerModal()" class="w-6 h-6 rounded-none bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs cursor-pointer">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-
-                    <form id="bannerForm" class="space-y-3 text-xs">
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Banner</label>
-                            <input type="text" id="bannerTitle" required placeholder="Contoh: Promo Wisata Desa" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">File Gambar Banner (Kompres Otomatis 300px)</label>
-                            <input type="file" id="bannerImage" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-400 hover:file:bg-emerald-100 cursor-pointer">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Publikasi</label>
-                            <select id="bannerStatus" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
-                                <option value="Aktif">Aktif</option>
-                                <option value="Non-Aktif">Non-Aktif</option>
-                            </select>
-                        </div>
-                        <div class="flex space-x-2 pt-2">
-                            <button type="button" onclick="closeBannerModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
-                            <button type="submit" id="submitBannerBtn" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Banner</button>
-                        </div>
-                    </form>
-                </div>
+    <!-- CONTAINER UTAMA MOBILE (PADDING p-3 pb-24 SAMA PERSIS DENGAN UNIT USAHA & PROFIL) -->
+    <div id="spaAppContainerMobile" class="flex md:hidden flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-3 pb-24">
+        
+        <!-- HEADER HALAMAN MOBILE -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-4 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div>
+                <h2 class="text-sm font-bold tracking-tight">Manajemen Banner</h2>
+                <p class="text-[10px] text-amber-300 mt-0.5">Kelola gambar banner promosi</p>
             </div>
-
-            <div id="customDeleteModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
-                <div id="customDeleteBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
-                    <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 rounded-full flex items-center justify-center mx-auto text-lg">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Konfirmasi Hapus</h3>
-                        <p id="deleteMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Apakah Anda yakin ingin menghapus item ini?</p>
-                    </div>
-                    <div class="flex space-x-2 pt-2">
-                        <button type="button" onclick="closeConfirmDeleteModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
-                        <button type="button" id="confirmDeleteBtn" class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Hapus</button>
-                    </div>
-                </div>
+            <div>
+                <button type="button" onclick="openBannerModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-3 py-1.5 rounded-none text-[11px] font-semibold transition-all border border-amber-400/30 flex items-center space-x-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus text-[10px]"></i>
+                    <span>Tambah</span>
+                </button>
             </div>
+        </div>
 
-            <div id="customNotificationModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-[10000] flex items-center justify-center hidden p-4">
-                <div id="customNotificationBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
-                    <div id="notifIconContainer" class="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div>
-                        <h3 id="notifTitleText" class="font-bold text-slate-800 dark:text-slate-100 text-sm">Informasi</h3>
-                        <p id="notifMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pesan berhasil.</p>
-                    </div>
-                    <div class="pt-2">
-                        <button type="button" onclick="closeBannerNotification()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">OK</button>
-                    </div>
-                </div>
+        <!-- INFORMASI JUMLAH BANNER MOBILE -->
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-images text-emerald-600 dark:text-emerald-400 text-sm"></i>
+                <span class="text-xs font-semibold text-slate-700 dark:text-slate-200">Total Banner:</span>
             </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalsHTML);
+            <div class="flex items-center space-x-3 text-xs">
+                <span class="font-bold text-slate-800 dark:text-slate-100"><span id="bannerCountTotalMobile">0</span> Item</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-medium">(<span id="bannerCountAktifMobile">0</span> Aktif)</span>
+            </div>
+        </div>
 
-            document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
-                if (!currentDeleteBannerId) return;
-                try {
-                    await firebase.firestore().collection("banner").doc(currentDeleteBannerId).delete();
-                    closeConfirmDeleteModal();
-                    showBannerNotification("Banner berhasil dihapus dari database!", "success");
-                } catch (error) {
-                    alert("Gagal menghapus: " + error.message);
+        <!-- GRID BANNER MOBILE -->
+        <div class="universal-banner-container no-scrollbar w-full overflow-y-auto grid grid-cols-1 gap-3">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data banner...
+            </div>
+        </div>
+    </div>
+
+    <!-- SKRIP LOGIKA & PENGAMBILAN DATA BANNER FIRESTORE -->
+    <script>
+        (function() {
+            let currentDeleteBannerId = null;
+            let currentEditBannerId = null;
+
+            function initBannerPage() {
+                initBannerModals();
+                loadBannerData();
+            }
+
+            function updateBannerStats(total, aktif, nonAktif) {
+                const totalDesk = document.getElementById('bannerCountTotalDesktop');
+                const aktifDesk = document.getElementById('bannerCountAktifDesktop');
+                const nonAktifDesk = document.getElementById('bannerCountNonAktifDesktop');
+                const totalMob = document.getElementById('bannerCountTotalMobile');
+                const aktifMob = document.getElementById('bannerCountAktifMobile');
+
+                if (totalDesk) totalDesk.innerText = total;
+                if (aktifDesk) aktifDesk.innerText = aktif;
+                if (nonAktifDesk) nonAktifDesk.innerText = nonAktif;
+                if (totalMob) totalMob.innerText = total;
+                if (aktifMob) aktifMob.innerText = aktif;
+            }
+
+            function loadBannerData() {
+                const containers = document.querySelectorAll('.universal-banner-container');
+                if (!containers.length) return;
+
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadBannerData, 200);
+                    return;
                 }
-            });
 
-            document.getElementById('bannerForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const title = document.getElementById('bannerTitle').value.trim();
-                const status = document.getElementById('bannerStatus').value;
-                const fileInput = document.getElementById('bannerImage');
+                if (typeof window._bannerUnsub === 'function') {
+                    window._bannerUnsub();
+                }
 
-                if (!title) return;
+                try {
+                    window._bannerUnsub = firebase.firestore().collection("banner")
+                        .onSnapshot((snapshot) => {
+                            let htmlContent = '';
+                            let countTotal = snapshot.size;
+                            let countAktif = 0;
+                            let countNonAktif = 0;
 
-                const saveData = async (imageBase64 = null) => {
-                    try {
-                        const docRef = currentEditBannerId 
-                            ? firebase.firestore().collection("banner").doc(currentEditBannerId)
-                            : firebase.firestore().collection("banner").doc();
-
-                        const payload = {
-                            judul: title,
-                            status: status
-                        };
-
-                        if (imageBase64) {
-                            payload.image = imageBase64;
-                        }
-
-                        if (!currentEditBannerId) {
-                            payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                        }
-
-                        if (currentEditBannerId) {
-                            await docRef.update(payload);
-                        } else {
-                            await docRef.set(payload);
-                        }
-
-                        closeBannerModal();
-                        document.getElementById('bannerForm').reset();
-                        showBannerNotification(`Banner '${title}' berhasil ${currentEditBannerId ? 'diperbarui' : 'disimpan'}!`, "success");
-                    } catch (error) {
-                        alert("Gagal menyimpan ke database: " + error.message);
-                    }
-                };
-
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const reader = new FileReader();
-
-                    reader.onload = function(uploadEvent) {
-                        const img = new Image();
-                        img.src = uploadEvent.target.result;
-                        img.onload = function() {
-                            const canvas = document.createElement('canvas');
-                            let width = img.width;
-                            let height = img.height;
-                            const maxDim = 300;
-
-                            if (width > height) {
-                                if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+                            if (snapshot.empty) {
+                                htmlContent = `
+                                    <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                                        Belum ada data banner di database.
+                                    </div>`;
                             } else {
-                                if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                                snapshot.forEach((docSnap) => {
+                                    const item = docSnap.data();
+                                    const id = docSnap.id;
+                                    const judul = item.judul || '-';
+                                    const status = item.status || 'Aktif';
+                                    const image = item.image || '';
+
+                                    if (status === 'Aktif') {
+                                        countAktif++;
+                                    } else {
+                                        countNonAktif++;
+                                    }
+
+                                    const safeJudul = judul.replace(/'/g, "\\'");
+
+                                    htmlContent += `
+                                        <div class="p-4 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                                            <div>
+                                                <div class="w-full h-32 bg-slate-100 dark:bg-slate-900 rounded-none overflow-hidden flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
+                                                    ${image ? `<img src="${image}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-image text-2xl"></i>'}
+                                                </div>
+                                                <div class="mt-2">
+                                                    <span class="px-2 py-0.5 ${status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-500'} font-semibold text-[10px] uppercase">${status}</span>
+                                                    <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs mt-1">${judul}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center space-x-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+                                                <button type="button" onclick="openEditBannerModal('${id}', '${safeJudul}', '${status}')" class="flex-1 py-1.5 bg-blue-50 dark:bg-slate-900 text-blue-600 rounded-none text-xs font-medium transition cursor-pointer">Edit</button>
+                                                <button type="button" onclick="openConfirmDeleteBannerModal('${id}', '${safeJudul}')" class="flex-1 py-1.5 bg-red-50 dark:bg-slate-900 text-red-600 rounded-none text-xs font-medium transition cursor-pointer">Hapus</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
                             }
 
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-
-                            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                            saveData(compressedBase64);
-                        };
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    if (currentEditBannerId) {
-                        saveData(null);
-                    } else {
-                        alert("Silakan pilih gambar banner terlebih dahulu.");
-                    }
+                            updateBannerStats(countTotal, countAktif, countNonAktif);
+                            containers.forEach(c => c.innerHTML = htmlContent);
+                        }, (err) => {
+                            console.error("Error mengambil banner:", err);
+                            containers.forEach(c => c.innerHTML = `<div class="p-6 text-center text-red-500 text-xs col-span-full">Gagal memuat data banner: ${err.message}</div>`);
+                        });
+                } catch (err) {
+                    console.error("Firestore Error:", err);
+                    setTimeout(loadBannerData, 300);
                 }
-            });
-        }
+            }
 
-        initBannerPage();
-    })();
-</script>
+            window.openBannerModal = function() {
+                currentEditBannerId = null;
+                initBannerModals();
+                const modalTitle = document.getElementById('modalBannerTitle');
+                const submitBtn = document.getElementById('submitBannerBtn');
+                const form = document.getElementById('bannerForm');
+
+                if (modalTitle) modalTitle.innerText = "Form Input Banner";
+                if (submitBtn) submitBtn.innerText = "Simpan Banner";
+                if (form) form.reset();
+
+                const imgInput = document.getElementById('bannerImage');
+                if (imgInput) imgInput.setAttribute('required', 'required');
+
+                const modal = document.getElementById('customBannerModal');
+                const box = document.getElementById('customBannerBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
+
+            window.openEditBannerModal = function(id, title, status) {
+                currentEditBannerId = id;
+                initBannerModals();
+                
+                const modalTitle = document.getElementById('modalBannerTitle');
+                const submitBtn = document.getElementById('submitBannerBtn');
+                const titleInput = document.getElementById('bannerTitle');
+                const statusSelect = document.getElementById('bannerStatus');
+                const imgInput = document.getElementById('bannerImage');
+
+                if (modalTitle) modalTitle.innerText = "Form Edit Banner";
+                if (submitBtn) submitBtn.innerText = "Perbarui Banner";
+                if (titleInput) titleInput.value = title;
+                if (statusSelect) statusSelect.value = status;
+                if (imgInput) imgInput.removeAttribute('required');
+
+                const modal = document.getElementById('customBannerModal');
+                const box = document.getElementById('customBannerBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
+
+            window.closeBannerModal = function() {
+                const modal = document.getElementById('customBannerModal');
+                const box = document.getElementById('customBannerBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => { 
+                        modal.classList.add('hidden'); 
+                        currentEditBannerId = null;
+                    }, 300);
+                }
+            };
+
+            window.openConfirmDeleteBannerModal = function(id, bannerTitle) {
+                initBannerModals();
+                currentDeleteBannerId = id;
+                const msg = document.getElementById('deleteMessageText');
+                if (msg) msg.innerText = `Apakah Anda yakin ingin menghapus "${bannerTitle}"?`;
+
+                const modal = document.getElementById('customDeleteModal');
+                const box = document.getElementById('customDeleteBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
+
+            window.closeConfirmDeleteModal = function() {
+                const modal = document.getElementById('customDeleteModal');
+                const box = document.getElementById('customDeleteBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        currentDeleteBannerId = null;
+                    }, 300);
+                }
+            };
+
+            window.showBannerNotification = function(message, type = 'success') {
+                initBannerModals();
+                const msgEl = document.getElementById('notifMessageText');
+                const titleEl = document.getElementById('notifTitleText');
+                const iconEl = document.getElementById('notifIconContainer');
+
+                if (msgEl) msgEl.innerText = message;
+                if (titleEl) titleEl.innerText = type === 'success' ? 'Berhasil' : 'Informasi';
+                if (iconEl) {
+                    iconEl.className = "w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg";
+                    iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+                }
+
+                const modal = document.getElementById('customNotificationModal');
+                const box = document.getElementById('customNotificationBox');
+                if (modal && box) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.remove('scale-95', 'opacity-0');
+                        box.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                }
+            };
+
+            window.closeBannerNotification = function() {
+                const modal = document.getElementById('customNotificationModal');
+                const box = document.getElementById('customNotificationBox');
+                if (modal && box) {
+                    box.classList.remove('scale-100', 'opacity-100');
+                    box.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                }
+            };
+
+            function initBannerModals() {
+                if (document.getElementById('customBannerModal')) return;
+
+                const modalsHTML = `
+                <div id="customBannerModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
+                    <div id="customBannerBox" class="w-full max-w-md bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                        <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
+                            <h3 id="modalBannerTitle" class="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wide">Form Input Banner</h3>
+                            <button type="button" onclick="closeBannerModal()" class="w-6 h-6 rounded-none bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs cursor-pointer">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <form id="bannerForm" class="space-y-3 text-xs">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Banner</label>
+                                <input type="text" id="bannerTitle" required placeholder="Contoh: Promo Wisata Desa" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">File Gambar Banner (Kompres Otomatis 300px)</label>
+                                <input type="file" id="bannerImage" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-400 hover:file:bg-emerald-100 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Publikasi</label>
+                                <select id="bannerStatus" class="w-full px-3 py-2 rounded-none border border-slate-200 dark:border-slate-600 text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-semibold">
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Non-Aktif">Non-Aktif</option>
+                                </select>
+                            </div>
+                            <div class="flex space-x-2 pt-2">
+                                <button type="button" onclick="closeBannerModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
+                                <button type="submit" id="submitBannerBtn" class="w-1/2 bg-emerald-800 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Simpan Banner</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="customDeleteModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[9999] flex items-center justify-center hidden p-4">
+                    <div id="customDeleteBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
+                        <div class="w-12 h-12 bg-red-100 dark:bg-red-950/50 text-red-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Konfirmasi Hapus</h3>
+                            <p id="deleteMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Apakah Anda yakin ingin menghapus item ini?</p>
+                        </div>
+                        <div class="flex space-x-2 pt-2">
+                            <button type="button" onclick="closeConfirmDeleteModal()" class="w-1/2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-semibold py-2 rounded-none transition-all text-xs cursor-pointer">Batal</button>
+                            <button type="button" id="confirmDeleteBtn" class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="customNotificationModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-[10000] flex items-center justify-center hidden p-4">
+                    <div id="customNotificationBox" class="w-full max-w-sm bg-white dark:bg-slate-800 rounded-none shadow-2xl flex flex-col pointer-events-auto border border-slate-200 dark:border-slate-700 p-5 space-y-4 transform scale-95 opacity-0 transition-all duration-300 ease-out text-center">
+                        <div id="notifIconContainer" class="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <h3 id="notifTitleText" class="font-bold text-slate-800 dark:text-slate-100 text-sm">Informasi</h3>
+                            <p id="notifMessageText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pesan berhasil.</p>
+                        </div>
+                        <div class="pt-2">
+                            <button type="button" onclick="closeBannerNotification()" class="w-full bg-emerald-800 hover:bg-emerald-700 text-white font-semibold py-2 rounded-none shadow transition-all text-xs cursor-pointer">OK</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalsHTML);
+
+                document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+                    if (!currentDeleteBannerId) return;
+                    try {
+                        await firebase.firestore().collection("banner").doc(currentDeleteBannerId).delete();
+                        closeConfirmDeleteModal();
+                        showBannerNotification("Banner berhasil dihapus dari database!", "success");
+                    } catch (error) {
+                        alert("Gagal menghapus: " + error.message);
+                    }
+                });
+
+                document.getElementById('bannerForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const title = document.getElementById('bannerTitle').value.trim();
+                    const status = document.getElementById('bannerStatus').value;
+                    const fileInput = document.getElementById('bannerImage');
+
+                    if (!title) return;
+
+                    const saveData = async (imageBase64 = null) => {
+                        try {
+                            const docRef = currentEditBannerId 
+                                ? firebase.firestore().collection("banner").doc(currentEditBannerId)
+                                : firebase.firestore().collection("banner").doc();
+
+                            const payload = {
+                                judul: title,
+                                status: status
+                            };
+
+                            if (imageBase64) {
+                                payload.image = imageBase64;
+                            }
+
+                            if (!currentEditBannerId) {
+                                payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                            }
+
+                            if (currentEditBannerId) {
+                                await docRef.update(payload);
+                            } else {
+                                await docRef.set(payload);
+                            }
+
+                            closeBannerModal();
+                            document.getElementById('bannerForm').reset();
+                            showBannerNotification(`Banner '${title}' berhasil ${currentEditBannerId ? 'diperbarui' : 'disimpan'}!`, "success");
+                        } catch (error) {
+                            alert("Gagal menyimpan ke database: " + error.message);
+                        }
+                    };
+
+                    if (fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const reader = new FileReader();
+
+                        reader.onload = function(uploadEvent) {
+                            const img = new Image();
+                            img.src = uploadEvent.target.result;
+                            img.onload = function() {
+                                const canvas = document.createElement('canvas');
+                                let width = img.width;
+                                let height = img.height;
+                                const maxDim = 300;
+
+                                if (width > height) {
+                                    if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+                                } else {
+                                    if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                                }
+
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, width, height);
+
+                                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                                saveData(compressedBase64);
+                            };
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        if (currentEditBannerId) {
+                            saveData(null);
+                        } else {
+                            alert("Silakan pilih gambar banner terlebih dahulu.");
+                        }
+                    }
+                });
+            }
+
+            setTimeout(initBannerPage, 50);
+        })();
+    </script>
+</body>
+</html>

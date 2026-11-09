@@ -13,102 +13,92 @@ export function renderNavigation(activePage = 'home', isMobile = true, role = 'w
     }
 
     return `
-        <nav class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 px-4 py-2 flex justify-around items-center shadow-lg relative">
-            <a href="layout.html?page=home" class="flex flex-col items-center space-y-1 ${activePage === 'home' ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-emerald-600'} text-[10px] transition">
+        <nav class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 border-t border-emerald-950/40 px-4 py-2.5 flex justify-around items-center shadow-2xl relative text-white">
+            <a href="layout.html?page=home" class="flex flex-col items-center space-y-1 ${activePage === 'home' ? 'text-amber-400 font-bold scale-105' : 'text-emerald-100/70 hover:text-amber-300'} text-[10px] transition">
                 <i class="fa-solid fa-house text-sm"></i>
                 <span>Beranda</span>
             </a>
-            <a href="layout.html?page=unit-usaha" class="flex flex-col items-center space-y-1 ${activePage === 'unit-usaha' ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-emerald-600'} text-[10px] transition">
+            <a href="layout.html?page=unit-usaha" class="flex flex-col items-center space-y-1 ${activePage === 'unit-usaha' ? 'text-amber-400 font-bold scale-105' : 'text-emerald-100/70 hover:text-amber-300'} text-[10px] transition">
                 <i class="fa-solid fa-store text-sm"></i>
                 <span>Unit Usaha</span>
             </a>
-            <a href="layout.html?page=umkm" class="flex flex-col items-center space-y-1 ${activePage === 'umkm' ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-emerald-600'} text-[10px] transition">
-                <i class="fa-solid fa-bag-shopping text-sm"></i>
-                <span>UMKM</span>
+            <!-- MENU KETIGA DIUBAH MENJADI GALERI -->
+            <a href="layout.html?page=galeri" class="flex flex-col items-center space-y-1 ${activePage === 'galeri' ? 'text-amber-400 font-bold scale-105' : 'text-emerald-100/70 hover:text-amber-300'} text-[10px] transition">
+                <i class="fa-solid fa-image text-sm"></i>
+                <span>Galeri</span>
             </a>
             
             ${isMoreMenu ? `
-                <button onclick="toggleMoreMenu(event)" class="flex flex-col items-center space-y-1 ${activePage === 'more' ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-emerald-600'} text-[10px] transition bg-transparent border-none cursor-pointer">
+                <button onclick="toggleMoreMenu(event)" class="flex flex-col items-center space-y-1 ${activePage === 'more' ? 'text-amber-400 font-bold scale-105' : 'text-emerald-100/70 hover:text-amber-300'} text-[10px] transition bg-transparent border-none cursor-pointer">
                     <i class="fa-solid ${fourthMenuIcon} text-sm"></i>
                     <span>${fourthMenuName}</span>
                 </button>
                 
-                <!-- POP-UP PANEL MENU 'MORE' (KOTAK SIKU / ROUNDED-NONE) -->
-                <div id="morePopup" class="hidden absolute bottom-16 right-2 left-2 sm:left-auto sm:right-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none shadow-2xl p-5 w-auto sm:w-[380px] z-50 space-y-4 max-h-[80vh] overflow-y-auto">
+                <!-- POP-UP PANEL MENU 'MORE' (RATA KANAN) -->
+                <div id="morePopup" class="hidden absolute bottom-16 right-2 bg-slate-900 dark:bg-slate-900 text-slate-100 border border-emerald-700/50 rounded-none shadow-2xl w-64 z-50 overflow-hidden text-left">
                     
                     <!-- Header Modal -->
-                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
-                        <span class="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">MENU PENGURUS & ADMIN</span>
-                        <button onclick="toggleMoreMenu(event)" class="w-7 h-7 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-slate-200 transition">
-                            <i class="fa-solid fa-xmark text-xs"></i>
+                    <div class="bg-gradient-to-r from-emerald-900 to-emerald-800 text-white px-4 py-2.5 flex items-center justify-between border-b border-emerald-700/40">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">OPTION MENU</span>
+                        <button onclick="toggleMoreMenu(event)" class="text-white hover:text-amber-300 transition bg-transparent border-none cursor-pointer">
+                            <i class="fa-solid fa-xmark text-sm"></i>
                         </button>
                     </div>
 
-                    <!-- KATEGORI: ADMINISTRATOR -->
-                    <div class="space-y-2">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Administrator</p>
-                        <div class="grid grid-cols-4 gap-2 text-center">
-                            <a href="layout.html?page=profil" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Profil</span>
-                            </a>
-                            <a href="layout.html?page=hak-akses" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Hak Akses</span>
-                            </a>
-                            <a href="layout.html?page=user" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-users-gear"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">User</span>
-                            </a>
-                            <a href="layout.html?page=monitoring" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Monitoring</span>
-                            </a>
-                        </div>
-                    </div>
+                    <!-- DAFTAR MENU VERTIKAL -->
+                    <div class="py-1 max-h-[70vh] overflow-y-auto space-y-0.5 text-slate-200 text-xs bg-slate-900">
+                        <a href="layout.html?page=profil" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-user-gear w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Pengaturan</span>
+                        </a>
+                        <a href="layout.html?page=hak-akses" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-shield-halved w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Hak Akses</span>
+                        </a>
+                        <a href="layout.html?page=user" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-users-gear w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Setting User</span>
+                        </a>
+                        
+                        <hr class="border-emerald-800/60 my-1">
+                        
+                        <a href="layout.html?page=profil" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-id-card w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Profil</span>
+                        </a>
+                        <a href="layout.html?page=banner" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-panorama w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Banner</span>
+                        </a>
+                        <a href="layout.html?page=running-text" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-bullhorn w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Running Text</span>
+                        </a>
+                        <a href="layout.html?page=unit-usaha-input" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-store w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Unit Usaha</span>
+                        </a>
+                        <!-- DIUBAH KE GALERI-INPUT -->
+                        <a href="layout.html?page=galeri-input" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-image w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Galeri</span>
+                        </a>
+                        <a href="layout.html?page=monitoring" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-950/60 transition">
+                            <i class="fa-solid fa-chart-line w-5 text-amber-400 text-center"></i>
+                            <span class="font-medium">Monitoring</span>
+                        </a>
 
-                    <!-- KATEGORI: PENGURUS -->
-                    <div class="space-y-2 pt-1">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengurus</p>
-                        <div class="grid grid-cols-4 gap-2 text-center">
-                            <a href="layout.html?page=galeri" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-image"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Galeri</span>
-                            </a>
-                            <a href="layout.html?page=banner" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-panorama"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Banner</span>
-                            </a>
-                            <a href="layout.html?page=running-text" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-bullhorn"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Running Text</span>
-                            </a>
-                            <a href="layout.html?page=umkm" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
-                                    <i class="fa-solid fa-bag-shopping"></i>
-                                </div>
-                                <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">UMKM</span>
-                            </a>
-                        </div>
+                        <hr class="border-emerald-800/60 my-1">
+
+                        <button onclick="logoutApp()" class="w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-red-950/40 text-red-400 transition text-left cursor-pointer border-none bg-transparent">
+                            <i class="fa-solid fa-power-off w-5 text-center"></i>
+                            <span class="font-medium">Keluar</span>
+                        </button>
                     </div>
 
                 </div>
             ` : `
-                <a href="layout.html?page=${fourthMenuPage}" class="flex flex-col items-center space-y-1 ${activePage === fourthMenuPage ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-emerald-600'} text-[10px] transition">
+                <a href="layout.html?page=${fourthMenuPage}" class="flex flex-col items-center space-y-1 ${activePage === fourthMenuPage ? 'text-amber-400 font-bold scale-105' : 'text-emerald-100/70 hover:text-amber-300'} text-[10px] transition">
                     <i class="fa-solid ${fourthMenuIcon} text-sm"></i>
                     <span>${fourthMenuName}</span>
                 </a>
@@ -117,16 +107,14 @@ export function renderNavigation(activePage = 'home', isMobile = true, role = 'w
     `;
 }
 
-// Fungsi global untuk membuka/menutup pop-up More
 window.toggleMoreMenu = function(event) {
-    event.stopPropagation();
+    if (event) event.stopPropagation();
     const popup = document.getElementById('morePopup');
     if (popup) {
         popup.classList.toggle('hidden');
     }
 };
 
-// Tutup pop-up jika pengguna mengklik di luar area menu
 document.addEventListener('click', () => {
     const popup = document.getElementById('morePopup');
     if (popup && !popup.classList.contains('hidden')) {

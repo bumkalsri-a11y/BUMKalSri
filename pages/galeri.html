@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeri - BUMKal Sinar Mitra Desa</title>
+</head>
+<body>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+    </style>
+
+    <!-- CONTAINER UTAMA DESKTOP -->
+    <div id="spaAppContainer" class="hidden md:flex flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-4 pb-12">
+        <!-- HEADER HALAMAN DESKTOP -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-white p-6 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-bold tracking-tight">Galeri Kegiatan BUMKal</h2>
+                <p class="text-xs text-amber-300 mt-1">Dokumentasi foto dan aset kegiatan BUMKal Sinar Mitra Desa.</p>
+            </div>
+            <div class="hidden lg:block text-right">
+                <span class="text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30 px-3 py-1.5 rounded-none">
+                    🖼️ Galeri BUMKal
+                </span>
+            </div>
+        </div>
+
+        <!-- FILTER BULAN & TAHUN DESKTOP -->
+        <div class="bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-filter text-emerald-600 dark:text-emerald-400"></i>
+                <span>Filter Periode Galeri:</span>
+            </div>
+            <div class="flex items-center space-x-2 text-xs">
+                <select id="filterBulanDesktop" onchange="applyGaleriFilter()" class="px-3 py-1.5 rounded-none border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-medium cursor-pointer">
+                    <option value="semua">Semua Bulan</option>
+                    <option value="0">Januari</option>
+                    <option value="1">Februari</option>
+                    <option value="2">Maret</option>
+                    <option value="3">April</option>
+                    <option value="4">Mei</option>
+                    <option value="5">Juni</option>
+                    <option value="6">Juli</option>
+                    <option value="7">Agustus</option>
+                    <option value="8">September</option>
+                    <option value="9">Oktober</option>
+                    <option value="10">November</option>
+                    <option value="11">Desember</option>
+                </select>
+                <select id="filterTahunDesktop" onchange="applyGaleriFilter()" class="px-3 py-1.5 rounded-none border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 font-medium cursor-pointer">
+                    <option value="semua">Semua Tahun</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- GRID GALERI DESKTOP -->
+        <div id="galeri-grid-desktop" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data galeri dari database...
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTAINER UTAMA MOBILE -->
+    <div id="spaAppContainerMobile" class="flex md:hidden flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-3 pb-24">
+        <!-- HEADER HALAMAN MOBILE -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-white p-4 rounded-none shadow-md border-b border-emerald-950/40">
+            <h2 class="text-sm font-bold tracking-tight">Galeri Kegiatan</h2>
+            <p class="text-[10px] text-amber-300 mt-0.5">Dokumentasi BUMKal Sinar Mitra Desa</p>
+        </div>
+
+        <!-- FILTER BULAN & TAHUN MOBILE -->
+        <div class="bg-white dark:bg-slate-800 p-3 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+            <div class="text-[11px] font-semibold text-slate-700 dark:text-slate-200 flex items-center space-x-1.5">
+                <i class="fa-solid fa-filter text-emerald-600"></i>
+                <span>Filter Periode:</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <select id="filterBulanMobile" onchange="applyGaleriFilter()" class="px-2 py-1.5 rounded-none border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-medium cursor-pointer">
+                    <option value="semua">Semua Bulan</option>
+                    <option value="0">Januari</option>
+                    <option value="1">Februari</option>
+                    <option value="2">Maret</option>
+                    <option value="3">April</option>
+                    <option value="4">Mei</option>
+                    <option value="5">Juni</option>
+                    <option value="6">Juli</option>
+                    <option value="7">Agustus</option>
+                    <option value="8">September</option>
+                    <option value="9">Oktober</option>
+                    <option value="10">November</option>
+                    <option value="11">Desember</option>
+                </select>
+                <select id="filterTahunMobile" onchange="applyGaleriFilter()" class="px-2 py-1.5 rounded-none border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-medium cursor-pointer">
+                    <option value="semua">Semua Tahun</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- LIST GALERI MOBILE -->
+        <div id="galeri-grid-mobile" class="grid grid-cols-2 gap-2.5">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data galeri dari database...
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PREVIEW FOTO (LIGHTBOX) -->
+    <div id="modalPreviewGaleri" class="hidden fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center p-4 backdrop-blur-xs">
+        <button onclick="closeModalGaleri()" class="absolute top-4 right-4 text-white hover:text-amber-400 text-2xl transition cursor-pointer p-2">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-3xl w-full flex flex-col items-center space-y-3">
+            <div class="w-full max-h-[70vh] flex justify-center bg-slate-950 border border-slate-800 overflow-hidden">
+                <img id="imgModalSrc" src="" alt="Preview" class="max-h-[70vh] w-auto object-contain">
+            </div>
+            <div class="text-center text-white px-2">
+                <h4 id="judulModalText" class="text-sm font-bold text-amber-300"></h4>
+                <p id="deskripsiModalText" class="text-xs text-slate-300 mt-1"></p>
+                <span id="tglModalText" class="text-[10px] text-slate-400 mt-0.5 inline-block"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIKA GALERI & FIRESTORE INTEGRATION -->
+    <script>
+        (function() {
+            window.allGaleriData = [];
+
+            function initGaleriPage() {
+                // Set default dropdown ke bulan & tahun berjalan (November 2026)
+                const now = new Date();
+                const currentMonth = now.getMonth().toString();
+                const currentYear = now.getFullYear().toString();
+
+                const bDesk = document.getElementById('filterBulanDesktop');
+                const tDesk = document.getElementById('filterTahunDesktop');
+                const bMob = document.getElementById('filterBulanMobile');
+                const tMob = document.getElementById('filterTahunMobile');
+
+                if (bDesk) bDesk.value = currentMonth;
+                if (tDesk) tDesk.value = currentYear;
+                if (bMob) bMob.value = currentMonth;
+                if (tMob) tMob.value = currentYear;
+
+                loadFirestoreGaleri();
+            }
+
+            window.loadFirestoreGaleri = function() {
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadFirestoreGaleri, 200);
+                    return;
+                }
+
+                if (typeof window._galeriPubUnsub === 'function') {
+                    window._galeriPubUnsub();
+                }
+
+                try {
+                    window._galeriPubUnsub = firebase.firestore().collection("galeri")
+                        .onSnapshot((snapshot) => {
+                            window.allGaleriData = [];
+                            snapshot.forEach((docSnap) => {
+                                const data = docSnap.data();
+                                if (data.status && data.status !== 'Aktif') return; // Hanya ambil yang aktif
+
+                                let dateObj = new Date();
+                                if (data.createdAt && typeof data.createdAt.toDate === 'function') {
+                                    dateObj = data.createdAt.toDate();
+                                }
+
+                                window.allGaleriData.push({
+                                    id: docSnap.id,
+                                    judul: data.judul || 'Dokumentasi BUMKal',
+                                    deskripsi: data.keterangan || '',
+                                    image: data.image || '',
+                                    dateObj: dateObj,
+                                    tanggalStr: dateObj.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })
+                                });
+                            });
+
+                            applyGaleriFilter();
+                        }, (err) => {
+                            console.error("Gagal memuat galeri:", err);
+                        });
+                } catch (error) {
+                    console.error("Error snapshot galeri:", error);
+                }
+            };
+
+            window.applyGaleriFilter = function() {
+                const bDesk = document.getElementById('filterBulanDesktop');
+                const tDesk = document.getElementById('filterTahunDesktop');
+                const bMob = document.getElementById('filterBulanMobile');
+                const tMob = document.getElementById('filterTahunMobile');
+
+                // Sinkronkan filter desktop & mobile jika salah satu diubah
+                let selectedBulan = 'semua';
+                let selectedTahun = 'semua';
+
+                if (bDesk && tDesk && event && event.target && event.target.id.includes('Desktop')) {
+                    selectedBulan = bDesk.value;
+                    selectedTahun = tDesk.value;
+                    if (bMob) bMob.value = selectedBulan;
+                    if (tMob) tMob.value = selectedTahun;
+                } else if (bMob && tMob && event && event.target && event.target.id.includes('Mobile')) {
+                    selectedBulan = bMob.value;
+                    selectedTahun = tMob.value;
+                    if (bDesk) bDesk.value = selectedBulan;
+                    if (tDesk) tDesk.value = selectedTahun;
+                } else {
+                    selectedBulan = bDesk ? bDesk.value : 'semua';
+                    selectedTahun = tDesk ? tDesk.value : 'semua';
+                }
+
+                const filtered = window.allGaleriData.filter(item => {
+                    const itemMonth = item.dateObj.getMonth().toString();
+                    const itemYear = item.dateObj.getFullYear().toString();
+
+                    const matchBulan = (selectedBulan === 'semua' || itemMonth === selectedBulan);
+                    const matchTahun = (selectedTahun === 'semua' || itemYear === selectedTahun);
+
+                    return matchBulan && matchTahun;
+                });
+
+                renderGaleriUI(filtered);
+            };
+
+            window.renderGaleriUI = function(dataList) {
+                const gridDesktop = document.getElementById('galeri-grid-desktop');
+                const gridMobile = document.getElementById('galeri-grid-mobile');
+
+                let htmlDesktop = '';
+                let htmlMobile = '';
+
+                if (dataList.length === 0) {
+                    const emptyState = `<div class="col-span-full p-8 text-center text-xs text-slate-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">Belum ada dokumentasi foto untuk periode bulan dan tahun yang dipilih.</div>`;
+                    if (gridDesktop) gridDesktop.innerHTML = emptyState;
+                    if (gridMobile) gridMobile.innerHTML = emptyState;
+                    return;
+                }
+
+                dataList.forEach(item => {
+                    const defaultImgSvg = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23064e3b'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial, sans-serif' font-size='32' font-weight='bold' fill='%23fbbf24' text-anchor='middle' dominant-baseline='middle'%3E🖼️ Galeri BUMKal%3C/text%3E%3C/svg%3E";
+                    const imgSrc = item.image ? item.image : defaultImgSvg;
+
+                    const safeJudul = item.judul.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    const safeDesk = item.deskripsi.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                    // HTML DESKTOP
+                    htmlDesktop += `
+                        <div onclick="openModalGaleri('${imgSrc}', '${safeJudul}', '${safeDesk}', '${item.tanggalStr}')" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none overflow-hidden shadow-sm group cursor-pointer hover:border-emerald-600 transition duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="h-44 w-full overflow-hidden relative bg-slate-900">
+                                    <img src="${imgSrc}" alt="${item.judul}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <div class="absolute inset-0 bg-emerald-950/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                        <span class="bg-emerald-800 text-amber-300 text-xs font-semibold px-3 py-1 shadow-md">
+                                            <i class="fa-solid fa-magnifying-glass-plus mr-1.5"></i> Perbesar
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="p-3 space-y-1">
+                                    <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">${item.tanggalStr}</span>
+                                    <h3 class="text-xs font-bold text-slate-900 dark:text-white truncate">${item.judul}</h3>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2">${item.deskripsi || '-'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // HTML MOBILE
+                    htmlMobile += `
+                        <div onclick="openModalGaleri('${imgSrc}', '${safeJudul}', '${safeDesk}', '${item.tanggalStr}')" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none overflow-hidden shadow-sm active:scale-98 transition cursor-pointer flex flex-col justify-between">
+                            <div>
+                                <div class="h-28 w-full overflow-hidden relative bg-slate-900">
+                                    <img src="${imgSrc}" alt="${item.judul}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-2 space-y-0.5">
+                                    <h3 class="text-[11px] font-bold text-slate-900 dark:text-white truncate">${item.judul}</h3>
+                                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate">${item.tanggalStr}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (gridDesktop) gridDesktop.innerHTML = htmlDesktop;
+                if (gridMobile) gridMobile.innerHTML = htmlMobile;
+            };
+
+            // Modal Lightbox Foto
+            window.openModalGaleri = function(src, judul, deskripsi, tgl) {
+                const modal = document.getElementById('modalPreviewGaleri');
+                document.getElementById('imgModalSrc').src = src;
+                document.getElementById('judulModalText').innerText = judul;
+                document.getElementById('deskripsiModalText').innerText = deskripsi;
+                document.getElementById('tglModalText').innerText = "Tanggal: " + tgl;
+                if (modal) modal.classList.remove('hidden');
+            };
+
+            window.closeModalGaleri = function() {
+                const modal = document.getElementById('modalPreviewGaleri');
+                if (modal) modal.classList.add('hidden');
+            };
+
+            setTimeout(initGaleriPage, 50);
+        })();
+    </script>
+</body>
+</html>

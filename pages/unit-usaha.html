@@ -1,85 +1,272 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Unit Usaha - BUMKal Srihardono</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDK Compat -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <!-- File Konfigurasi -->
-    <script src="../firebase.js"></script>
+    <title>Unit Usaha - BUMKal Sinar Mitra Desa</title>
 </head>
-<body class="h-full bg-slate-50 text-slate-800 flex flex-col justify-between font-sans select-none">
+<body>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+        /* Style pasti untuk tombol Tab Active & Inactive */
+        .tab-btn-active {
+            background-color: #065f46 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            border: 1px solid #065f46 !important;
+        }
+        .tab-btn-inactive {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            font-weight: 600 !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        .dark .tab-btn-inactive {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #475569 !important;
+        }
+    </style>
 
-    <!-- Tempat Layout di Root Dimuat -->
-    <div id="layout-container" class="contents"></div>
-
-    <!-- KONTEN KHUSUS UNIT USAHA (Tahap Pengembangan) -->
-    <div id="content-payload" class="hidden">
-        <div class="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 space-y-4">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl shadow-sm animate-pulse">
-                🚧
+    <!-- CONTAINER UTAMA DESKTOP -->
+    <div id="spaAppContainer" class="hidden md:flex flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-4 pb-12">
+        <!-- HEADER HALAMAN -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-6 rounded-none shadow-md border-b border-emerald-950/40 flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-bold tracking-tight">Unit Usaha BUMKal</h2>
+                <p class="text-xs text-amber-300 mt-1">Portal unit bisnis resmi BUMKal Sinar Mitra Desa untuk pemberdayaan ekonomi warga.</p>
             </div>
-            <div class="space-y-2 max-w-md mx-auto">
-                <span class="text-[10px] font-bold uppercase tracking-widest bg-amber-100 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
-                    Segera Hadir
+            <div class="hidden lg:block text-right">
+                <span class="text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30 px-3 py-1.5 rounded-none">
+                    🌿 Sinar Mitra Desa
                 </span>
-                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Unit Usaha BUMKal</h2>
-                <p class="text-xs text-slate-500 leading-relaxed">
-                    Halaman manajemen unit usaha sedang dalam tahap pengembangan sistem dan integrasi data keuangan. Terima kasih atas kesabaran Anda.
-                </p>
             </div>
-            <div class="pt-2">
-                <a href="../home.html" class="inline-flex items-center space-x-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    <span>Kembali ke Beranda</span>
-                </a>
+        </div>
+
+        <!-- FILTER TAB KATEGORI DESKTOP -->
+        <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-700 pb-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterUnitUsaha('semua', 'desktop', this)" class="tab-btn-desktop tab-btn-active px-4 py-2 text-xs rounded-none transition cursor-pointer">
+                Semua Unit
+            </button>
+            <button onclick="filterUnitUsaha('Aktif', 'desktop', this)" class="tab-btn-desktop tab-btn-inactive px-4 py-2 text-xs rounded-none transition cursor-pointer">
+                Status Aktif
+            </button>
+            <button onclick="filterUnitUsaha('Non-Aktif', 'desktop', this)" class="tab-btn-desktop tab-btn-inactive px-4 py-2 text-xs rounded-none transition cursor-pointer">
+                Status Non-Aktif
+            </button>
+        </div>
+
+        <!-- GRID KARTU UNIT USAHA DESKTOP -->
+        <div id="unit-grid-desktop" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data unit usaha dari database...
             </div>
         </div>
     </div>
 
-    <!-- Skrip Pemuat Layout Anti-Kedip & Cached -->
+    <!-- CONTAINER UTAMA MOBILE -->
+    <div id="spaAppContainerMobile" class="flex md:hidden flex-col space-y-4 overflow-y-auto no-scrollbar h-full w-full p-3 pb-24">
+        <!-- HEADER HALAMAN MOBILE -->
+        <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white p-4 rounded-none shadow-md border-b border-emerald-950/40">
+            <h2 class="text-sm font-bold tracking-tight">Unit Usaha BUMKal</h2>
+            <p class="text-[10px] text-amber-300 mt-0.5">Layanan & Bisnis BUMKal Sinar Mitra Desa</p>
+        </div>
+
+        <!-- FILTER TAB KATEGORI MOBILE -->
+        <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1">
+            <button onclick="filterUnitUsaha('semua', 'mobile', this)" class="tab-btn-mobile tab-btn-active px-3 py-1.5 text-[10px] shrink-0 transition cursor-pointer">
+                Semua
+            </button>
+            <button onclick="filterUnitUsaha('Aktif', 'mobile', this)" class="tab-btn-mobile tab-btn-inactive px-3 py-1.5 text-[10px] shrink-0 transition cursor-pointer">
+                Aktif
+            </button>
+            <button onclick="filterUnitUsaha('Non-Aktif', 'mobile', this)" class="tab-btn-mobile tab-btn-inactive px-3 py-1.5 text-[10px] shrink-0 transition cursor-pointer">
+                Non-Aktif
+            </button>
+        </div>
+
+        <!-- LIST KARTU UNIT USAHA MOBILE -->
+        <div id="unit-grid-mobile" class="space-y-3">
+            <div class="p-6 bg-white dark:bg-slate-800 rounded-none border border-slate-200 dark:border-slate-700 shadow-sm text-center text-slate-400 text-xs col-span-full">
+                Memuat data unit usaha dari database...
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DATA & LOGIKA FIRESTORE -->
     <script>
-        window._cachedLayout = window._cachedLayout || null;
+        (function() {
+            window.allUnitUsahaData = [];
+            let currentFilter = 'semua';
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Ambil layout sekali saja lalu simpan di memori browser
-                if (!window._cachedLayout) {
-                    const response = await fetch('../layout.html');
-                    window._cachedLayout = await response.text();
-                }
-                
-                document.getElementById('layout-container').innerHTML = window._cachedLayout;
+            function initUnitUsahaPage() {
+                loadFirestoreUnitUsaha();
+            }
 
-                // Masukkan isi konten ke dalam id="mainContentArea" (sesuai layout.html root)
-                const payload = document.getElementById('content-payload').innerHTML;
-                const mainArea = document.getElementById('mainContentArea') || document.getElementById('main-content');
-                if (mainArea) {
-                    mainArea.innerHTML = payload;
+            function loadFirestoreUnitUsaha() {
+                if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length || !firebase.firestore) {
+                    setTimeout(loadFirestoreUnitUsaha, 200);
+                    return;
                 }
 
-                // Tandai menu aktif di header/sidebar
-                const currentPath = window.location.pathname;
-                const navLinks = document.querySelectorAll('aside a, nav a');
-                navLinks.forEach(link => {
-                    const href = link.getAttribute('href');
-                    if (href && (href.includes('unit-usaha') || currentPath.includes('unit-usaha'))) {
-                        link.className = "flex items-center space-x-3 px-3 py-2.5 rounded-none bg-emerald-700 text-white font-semibold text-xs shadow-sm transition-all";
-                    }
+                if (typeof window._unitUsahaPublicUnsub === 'function') {
+                    window._unitUsahaPublicUnsub();
+                }
+
+                try {
+                    window._unitUsahaPublicUnsub = firebase.firestore().collection("unit_usaha")
+                        .onSnapshot((snapshot) => {
+                            window.allUnitUsahaData = [];
+                            snapshot.forEach((docSnap) => {
+                                const item = docSnap.data();
+                                window.allUnitUsahaData.push({
+                                    id: docSnap.id,
+                                    nama: item.nama || '-',
+                                    pengelola: item.pengelola || '-',
+                                    kontak: item.kontak || '',
+                                    deskripsi: item.deskripsi || '',
+                                    status: item.status || 'Aktif',
+                                    image: item.image || ''
+                                });
+                            });
+
+                            renderUnitUsaha(currentFilter);
+                        }, (err) => {
+                            console.error("Gagal memuat unit usaha:", err);
+                            const errHtml = `<div class="col-span-full p-6 text-center text-red-500 text-xs">Gagal memuat data: ${err.message}</div>`;
+                            document.getElementById('unit-grid-desktop').innerHTML = errHtml;
+                            document.getElementById('unit-grid-mobile').innerHTML = errHtml;
+                        });
+                } catch (error) {
+                    console.error("Error in snapshot:", error);
+                    setTimeout(loadFirestoreUnitUsaha, 300);
+                }
+            }
+
+            // Render Kartu Unit Usaha Berdasarkan Filter (Semua / Aktif / Non-Aktif)
+            window.renderUnitUsaha = function(filterStatus = 'semua') {
+                currentFilter = filterStatus;
+                const gridDesktop = document.getElementById('unit-grid-desktop');
+                const gridMobile = document.getElementById('unit-grid-mobile');
+
+                const filteredData = filterStatus === 'semua' 
+                    ? window.allUnitUsahaData 
+                    : window.allUnitUsahaData.filter(item => item.status === filterStatus);
+
+                let htmlDesktop = '';
+                let htmlMobile = '';
+
+                if (filteredData.length === 0) {
+                    const emptyState = `<div class="col-span-full p-8 text-center text-xs text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">Belum ada data unit usaha yang tersedia di database.</div>`;
+                    if (gridDesktop) gridDesktop.innerHTML = emptyState;
+                    if (gridMobile) gridMobile.innerHTML = emptyState;
+                    return;
+                }
+
+                filteredData.forEach(item => {
+                    const defaultImgSvg = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='100%25' height='100%25' fill='%23064e3b'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial, sans-serif' font-size='32' font-weight='bold' fill='%23fbbf24' text-anchor='middle' dominant-baseline='middle'%3E🏪 BUMKal Sinar Mitra Desa%3C/text%3E%3C/svg%3E";
+                    const imgSrc = item.image ? item.image : defaultImgSvg;
+
+                    // HTML DESKTOP
+                    htmlDesktop += `
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none overflow-hidden shadow-sm flex flex-col justify-between group">
+                            <div>
+                                <div class="h-40 w-full overflow-hidden relative bg-emerald-950">
+                                    <img src="${imgSrc}" alt="${item.nama}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <span class="absolute top-2 right-2 ${item.status === 'Aktif' ? 'bg-emerald-800 text-amber-300' : 'bg-slate-700 text-slate-300'} text-[10px] font-bold px-2 py-0.5 rounded-none shadow-sm border border-amber-400/20">
+                                        ${item.status}
+                                    </span>
+                                </div>
+                                <div class="p-4 space-y-2">
+                                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">${item.nama}</h3>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">${item.deskripsi || 'Tidak ada deskripsi.'}</p>
+                                    <div class="pt-2 border-t border-slate-100 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400 space-y-1">
+                                        <div class="flex items-center space-x-2">
+                                            <i class="fa-solid fa-user text-amber-500 w-4"></i>
+                                            <span>Pengelola: <strong>${item.pengelola}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                ${item.kontak ? `
+                                    <a href="https://wa.me/${item.kontak}" target="_blank" class="w-full bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-semibold py-2 px-3 rounded-none flex items-center justify-center space-x-2 transition shadow-sm cursor-pointer">
+                                        <i class="fa-brands fa-whatsapp text-amber-300 text-sm"></i>
+                                        <span>Hubungi Layanan</span>
+                                    </a>
+                                ` : `
+                                    <button disabled class="w-full bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs font-semibold py-2 px-3 rounded-none cursor-not-allowed">
+                                        Kontak Tidak Tersedia
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    `;
+
+                    // HTML MOBILE
+                    htmlMobile += `
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none overflow-hidden shadow-sm flex flex-col">
+                            <div class="h-32 w-full overflow-hidden relative bg-emerald-950">
+                                <img src="${imgSrc}" alt="${item.nama}" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 ${item.status === 'Aktif' ? 'bg-emerald-800 text-amber-300' : 'bg-slate-700 text-slate-300'} text-[9px] font-bold px-2 py-0.5 rounded-none border border-amber-400/20">
+                                    ${item.status}
+                                </span>
+                            </div>
+                            <div class="p-3 space-y-1.5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xs font-bold text-slate-900 dark:text-white leading-tight">${item.nama}</h3>
+                                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug mt-1">${item.deskripsi || 'Tidak ada deskripsi.'}</p>
+                                    <div class="mt-2 text-[10px] text-slate-500 dark:text-slate-400 flex items-center space-x-1.5">
+                                        <i class="fa-solid fa-user text-amber-500"></i>
+                                        <span>Pengelola: <strong>${item.pengelola}</strong></span>
+                                    </div>
+                                </div>
+                                <div class="pt-2">
+                                    ${item.kontak ? `
+                                        <a href="https://wa.me/${item.kontak}" target="_blank" class="w-full bg-emerald-800 text-white text-[11px] font-semibold py-1.5 px-2 rounded-none flex items-center justify-center space-x-1.5 shadow-sm cursor-pointer">
+                                            <i class="fa-brands fa-whatsapp text-amber-300"></i>
+                                            <span>Hubungi Unit</span>
+                                        </a>
+                                    ` : `
+                                        <button disabled class="w-full bg-slate-300 dark:bg-slate-700 text-slate-500 text-[11px] font-semibold py-1.5 px-2 rounded-none cursor-not-allowed">
+                                            Kontak Tidak Tersedia
+                                        </button>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 });
 
-                if (typeof updateDbStatus === 'function') updateDbStatus('db-status');
-            } catch (err) {
-                console.error("Gagal memuat layout pusat:", err);
-            }
-        });
+                if (gridDesktop) gridDesktop.innerHTML = htmlDesktop;
+                if (gridMobile) gridMobile.innerHTML = htmlMobile;
+            };
+
+            // Fungsi Filter Tab Interaktif
+            window.filterUnitUsaha = function(statusFilter, mode, el) {
+                const selector = mode === 'desktop' ? '.tab-btn-desktop' : '.tab-btn-mobile';
+                document.querySelectorAll(selector).forEach(btn => {
+                    btn.classList.remove('tab-btn-active');
+                    btn.classList.add('tab-btn-inactive');
+                });
+
+                if (el) {
+                    el.classList.remove('tab-btn-inactive');
+                    el.classList.add('tab-btn-active');
+                }
+
+                window.renderUnitUsaha(statusFilter);
+            };
+
+            setTimeout(initUnitUsahaPage, 50);
+        })();
     </script>
 </body>
 </html>
