@@ -45,7 +45,7 @@
             <div class="relative z-10 my-2 w-full max-w-7xl px-2">
                 <!-- Tampilan Mobile (Kotak Statis & Gambar Dipaksa Mengisi Kotak) -->
                 <div class="md:hidden h-36 w-full max-w-[300px] mx-auto rounded-none overflow-hidden shadow-lg border border-white/10 flex items-center justify-center bg-slate-950/60">
-                    <img class="hero-banner-img h-full w-full object-cover transition-all duration-500" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" alt="Banner BUMKal">
+                    <img class="hero-banner-img h-full w-full object-cover transition-all duration-500" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" alt="Banner BUMKal" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop'">
                 </div>
 
                 <!-- Tampilan Desktop (6 Kotak Statis Berjajar & Gambar Dipaksa Mengisi Kotak) -->
@@ -171,7 +171,9 @@
                 dotsEl.innerHTML = dotsHtml;
             });
 
-            window.renderDesktopGrid(index);
+            if (document.getElementById('desktop-grid-banners')) {
+                window.renderDesktopGrid(index);
+            }
         };
 
         window.renderDesktopGrid = function(startIndex = 0) {
@@ -183,7 +185,7 @@
                 const slideItem = window.homeSlideData[(startIndex + i) % window.homeSlideData.length];
                 gridHtml += `
                     <div class="h-28 w-full rounded-none overflow-hidden shadow-lg border border-white/10 flex items-center justify-center bg-slate-950/60">
-                        <img class="w-full h-full object-cover transition-all duration-300 hover:scale-105" src="${slideItem.image}" alt="Banner BUMKal">
+                        <img class="w-full h-full object-cover transition-all duration-300 hover:scale-105" src="${slideItem.image}" alt="Banner BUMKal" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop'">
                     </div>
                 `;
             }
@@ -316,7 +318,6 @@
                 const db = firebase.firestore();
                 const rtContainer = document.getElementById('firestore-running-text');
 
-                // Ambil konfigurasi kecepatan secara real-time dari Firestore[cite: 6]
                 db.collection("running_text_config").doc("global").onSnapshot((docConfig) => {
                     let speedDuration = "8s"; 
                     if (docConfig && docConfig.exists) {
@@ -324,19 +325,18 @@
                         const kecepatanVal = (cfg.kecepatan || "").trim().toLowerCase();
                         
                         if (kecepatanVal === "cepat") {
-                            speedDuration = "4s";   // Cepat & gesit
+                            speedDuration = "4s";   
                         } else if (kecepatanVal === "sedang") {
-                            speedDuration = "12s";  // Sedang
+                            speedDuration = "12s";  
                         } else if (kecepatanVal === "lambat") {
-                            speedDuration = "25s";  // Lambat
+                            speedDuration = "25s";  
                         }
                     }
                     if (rtContainer) {
-                        rtContainer.style.animation = `mobileMarquee ${speedDuration} linear infinite`;
+                        rtContainer.style.animationDuration = speedDuration;
                     }
                 });
 
-                // Ambil item teks pengumuman secara real-time
                 db.collection("running_text_items").onSnapshot((snapshot) => {
                     let texts = [];
                     snapshot.forEach((doc) => {
