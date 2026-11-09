@@ -273,11 +273,10 @@
 
                 const bannerWil = document.getElementById('banner-firestore-wilayah');
                 const bannerNama = document.getElementById('banner-firestore-nama');
-                const bannerSlogan = document.getElementById('banner-firestore-slogan');
 
                 if (bannerWil && data.wilayah) bannerWil.innerText = data.wilayah;
                 if (bannerNama && data.nama) bannerNama.innerText = data.nama;
-                if (bannerSlogan && data.slogan) bannerSlogan.innerText = data.slogan;
+                // Sengaja tidak menimpa bannerSlogan agar teks deskripsi banner tetap konsisten
             }
 
             function loadFirestoreBanners() {
@@ -298,7 +297,6 @@
                         }
                     });
 
-                    // PERBAIKAN UTAMA: Jika data di database kosong/dihapus, gunakan fallback default
                     if (fetchedSlides.length > 0) {
                         window.homeSlideData = fetchedSlides;
                     } else {

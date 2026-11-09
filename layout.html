@@ -131,7 +131,7 @@
             <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between shrink-0 shadow-sm">
                 <div class="flex items-center space-x-3">
                     <!-- TOMBOL TOGGLE SIDEBAR (SEBELAH KIRI) -->
-                    <button onclick="toggleSidebar()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition cursor-pointer" title="Sembunyikan/Tampilkan Sidebar">
+                    <button onclick="toggleSidebar()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition cursor-pointer" title="Sembunyikan/Tampilkan Sidebar">
                         <i class="fa-solid fa-bars text-xs"></i>
                     </button>
                     <div class="flex items-center space-x-2">
@@ -141,24 +141,24 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button onclick="toggleTheme()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition cursor-pointer" title="Ganti Tema">
+                    <button onclick="toggleTheme()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition cursor-pointer" title="Ganti Tema">
                         <i class="fa-solid fa-moon dark:hidden text-xs"></i>
                         <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-400"></i>
                     </button>
 
-                    <div id="db-status" class="w-7 h-7 bg-slate-100 rounded-full flex items-center justify-center border border-slate-200 shadow-inner" title="Status Database"></div>
+                    <div id="db-status" class="w-7 h-7 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center border border-slate-200 dark:border-slate-600 shadow-inner" title="Status Database"></div>
 
-                    <div class="flex items-center space-x-2 pl-2 border-l border-slate-200">
-                        <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                    <div class="flex items-center space-x-2 pl-2 border-l border-slate-200 dark:border-slate-700">
+                        <div class="w-8 h-8 rounded-none bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">
                             <span id="userInitial">BS</span>
                         </div>
                         <div class="hidden lg:block text-left">
                             <p id="userName" class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">Memuat...</p>
-                            <p id="userEmail" class="text-[10px] text-slate-400 leading-tight">...</p>
+                            <p id="userEmail" class="text-[10px] text-slate-400 dark:text-slate-400 leading-tight">...</p>
                         </div>
                     </div>
 
-                    <button onclick="logoutApp()" class="p-2 text-slate-600 hover:text-red-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" title="Keluar">
+                    <button onclick="logoutApp()" class="p-2 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 transition rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" title="Keluar">
                         <i class="fa-solid fa-power-off text-sm"></i>
                     </button>
                 </div>
@@ -173,38 +173,38 @@
     <!-- TAMPILAN MOBILE -->
     <div class="flex md:hidden w-full h-screen sm:max-w-[400px] sm:h-[92vh] sm:max-h-[820px] bg-slate-50 dark:bg-slate-900 sm:rounded-none shadow-2xl flex-col justify-between relative sm:border-[6px] sm:border-slate-800">
         
-        <!-- Header Mobile -->
-        <div class="bg-emerald-700 text-white px-4 pt-3 pb-3 shrink-0 relative flex items-center justify-between border-b border-emerald-800">
+        <!-- Header Mobile (Mendukung Light & Dark Mode) -->
+        <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 px-4 pt-3 pb-3 shrink-0 relative flex items-center justify-between border-b border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
             <div class="flex items-center space-x-2.5 overflow-hidden">
-                <div class="w-8 h-8 bg-white/10 flex items-center justify-center text-white rounded-lg p-1 shrink-0 text-sm">
+                <div class="w-8 h-8 bg-emerald-700 dark:bg-emerald-800 flex items-center justify-center text-white rounded-full p-1 shrink-0 text-sm shadow-sm">
                     🏛️
                 </div>
                 <div class="overflow-hidden">
-                    <h2 class="text-xs font-bold truncate text-white leading-tight">BUMKal Srihardono</h2>
-                    <p class="text-[9px] text-emerald-200 font-medium">Pundong, Bantul</p>
+                    <h2 class="text-xs font-bold truncate leading-tight">BUMKal Srihardono</h2>
+                    <p class="text-[9px] text-emerald-600 dark:text-emerald-400 font-medium">Pundong, Bantul</p>
                 </div>
             </div>
             
             <div class="flex items-center space-x-2 shrink-0 relative">
-                <button onclick="toggleTheme()" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition">
+                <button onclick="toggleTheme()" class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 transition">
                     <i class="fa-solid fa-moon dark:hidden text-xs"></i>
-                    <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-300"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-400"></i>
                 </button>
 
-                <button onclick="toggleProfileDropdown(event)" class="w-8 h-8 rounded-full bg-white text-emerald-800 flex items-center justify-center text-xs font-bold shadow-md cursor-pointer hover:bg-emerald-50 transition">
+                <button onclick="toggleProfileDropdown(event)" class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer hover:bg-emerald-700 transition">
                     <span id="userInitialDropdown">BS</span>
                 </button>
 
-                <!-- DROPDOWN MENU PROFIL -->
-                <div id="profileDropdown" class="hidden absolute top-10 right-0 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-2 w-44 z-50 space-y-1 text-slate-800 dark:text-slate-200">
+                <!-- DROPDOWN MENU PROFIL (DIUBAH JADI KOTAK SIKU / ROUNDED-NONE) -->
+                <div id="profileDropdown" class="hidden absolute top-10 right-0 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none shadow-2xl p-2 w-44 z-50 space-y-1 text-slate-800 dark:text-slate-200">
                     <div id="absensiMenuContainer">
-                        <a href="layout.html?page=absensi" class="flex items-center space-x-2.5 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-medium transition">
-                            <i class="fa-solid fa-clipboard-user text-emerald-600"></i>
+                        <a href="layout.html?page=absensi" class="flex items-center space-x-2.5 px-3 py-2 rounded-none hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-medium transition">
+                            <i class="fa-solid fa-clipboard-user text-emerald-600 dark:text-emerald-400"></i>
                             <span>Absensi</span>
                         </a>
                     </div>
                     <hr class="border-slate-100 dark:border-slate-700 my-1">
-                    <button onclick="logoutApp()" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 text-xs font-medium text-red-600 dark:text-red-400 transition cursor-pointer text-left">
+                    <button onclick="logoutApp()" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-none hover:bg-red-50 dark:hover:bg-red-950/30 text-xs font-medium text-red-600 dark:text-red-400 transition cursor-pointer text-left">
                         <i class="fa-solid fa-power-off"></i>
                         <span>Keluar</span>
                     </button>

@@ -33,13 +33,13 @@ export function renderNavigation(activePage = 'home', isMobile = true, role = 'w
                     <span>${fourthMenuName}</span>
                 </button>
                 
-                <!-- POP-UP PANEL MENU 'MORE' (BARU) -->
-                <div id="morePopup" class="hidden absolute bottom-16 right-2 left-2 sm:left-auto sm:right-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl p-5 w-auto sm:w-[380px] z-50 space-y-4 max-h-[80vh] overflow-y-auto">
+                <!-- POP-UP PANEL MENU 'MORE' (KOTAK SIKU / ROUNDED-NONE) -->
+                <div id="morePopup" class="hidden absolute bottom-16 right-2 left-2 sm:left-auto sm:right-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-none shadow-2xl p-5 w-auto sm:w-[380px] z-50 space-y-4 max-h-[80vh] overflow-y-auto">
                     
                     <!-- Header Modal -->
                     <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
                         <span class="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">MENU PENGURUS & ADMIN</span>
-                        <button onclick="toggleMoreMenu(event)" class="w-7 h-7 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-slate-200 transition">
+                        <button onclick="toggleMoreMenu(event)" class="w-7 h-7 bg-slate-100 dark:bg-slate-700 rounded-none flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-slate-200 transition">
                             <i class="fa-solid fa-xmark text-xs"></i>
                         </button>
                     </div>
@@ -48,26 +48,26 @@ export function renderNavigation(activePage = 'home', isMobile = true, role = 'w
                     <div class="space-y-2">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Administrator</p>
                         <div class="grid grid-cols-4 gap-2 text-center">
-                            <a href="layout.html?page=profil" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=profil" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-user"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Profil</span>
                             </a>
-                            <a href="layout.html?page=hak-akses" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=hak-akses" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-shield-halved"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Hak Akses</span>
                             </a>
-                            <a href="layout.html?page=user" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=user" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-users-gear"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">User</span>
                             </a>
-                            <a href="layout.html?page=monitoring" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=monitoring" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-chart-line"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Monitoring</span>
@@ -79,26 +79,26 @@ export function renderNavigation(activePage = 'home', isMobile = true, role = 'w
                     <div class="space-y-2 pt-1">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengurus</p>
                         <div class="grid grid-cols-4 gap-2 text-center">
-                            <a href="layout.html?page=galeri" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=galeri" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-image"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Galeri</span>
                             </a>
-                            <a href="layout.html?page=banner" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=banner" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-panorama"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Banner</span>
                             </a>
-                            <a href="layout.html?page=running-text" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=running-text" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-bullhorn"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">Running Text</span>
                             </a>
-                            <a href="layout.html?page=umkm" class="flex flex-col items-center p-2 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
+                            <a href="layout.html?page=umkm" class="flex flex-col items-center p-2 rounded-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition group">
+                                <div class="w-10 h-10 rounded-none bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm group-hover:scale-110 transition">
                                     <i class="fa-solid fa-bag-shopping"></i>
                                 </div>
                                 <span class="text-[10px] font-medium text-slate-700 dark:text-slate-300 mt-1.5 leading-tight">UMKM</span>
