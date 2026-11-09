@@ -69,7 +69,7 @@
                 </p>
             </div>
 
-            <!-- RUNNING TEXT (DIKOSONGKAN DARI HTML, MURNI DARI DATABASE) -->
+            <!-- RUNNING TEXT -->
             <div id="running-text-wrapper" class="relative z-10 w-full max-w-7xl mx-auto mt-3 px-2">
                 <div class="w-full px-3 py-1.5 bg-slate-950/70 border border-emerald-500/30 rounded-none backdrop-blur-md flex items-center shadow-lg overflow-hidden">
                     <div class="w-full overflow-hidden whitespace-nowrap text-left relative">
@@ -132,6 +132,7 @@
         }
 
         window.homeSlideIndex = 0;
+        // Data cadangan default jika database kosong
         window.homeSlideData = window.homeSlideData || [
             { judul: "Selamat Datang", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" }
         ];
@@ -143,6 +144,7 @@
             const dotsElements = document.querySelectorAll('.hero-slider-dots');
 
             if (!window.homeSlideData.length) return;
+            if (index >= window.homeSlideData.length) index = 0;
             const current = window.homeSlideData[index];
             
             imgElements.forEach(imgEl => {
@@ -296,12 +298,18 @@
                         }
                     });
 
+                    // PERBAIKAN UTAMA: Jika data di database kosong/dihapus, gunakan fallback default
                     if (fetchedSlides.length > 0) {
                         window.homeSlideData = fetchedSlides;
-                        if (window.homeSlideIndex >= window.homeSlideData.length) window.homeSlideIndex = 0;
-                        window.renderHomeSlide(window.homeSlideIndex);
-                        window.startHomeAutoSlide();
+                    } else {
+                        window.homeSlideData = [
+                            { judul: "Selamat Datang", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" }
+                        ];
                     }
+
+                    if (window.homeSlideIndex >= window.homeSlideData.length) window.homeSlideIndex = 0;
+                    window.renderHomeSlide(window.homeSlideIndex);
+                    window.startHomeAutoSlide();
                 }, (err) => {
                     console.error("Gagal memuat banner beranda:", err);
                 });
@@ -316,7 +324,6 @@
                 const db = firebase.firestore();
                 const rtContainer = document.getElementById('firestore-running-text');
 
-                // Ambil konfigurasi kecepatan secara real-time dari Firestore
                 db.collection("running_text_config").doc("global").onSnapshot((docConfig) => {
                     let speedDuration = "8s"; 
                     if (docConfig && docConfig.exists) {
@@ -336,7 +343,6 @@
                     }
                 });
 
-                // Ambil item teks pengumuman secara real-time
                 db.collection("running_text_items").onSnapshot((snapshot) => {
                     let texts = [];
                     snapshot.forEach((doc) => {
